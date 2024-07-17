@@ -19,4 +19,14 @@ class ProblemTest: StringSpec( {
     "given [3, 2, 1], the expected output would be [2, 3, 6]" {
         productExcludingItemAtIndex(listOf(3, 2, 1)) shouldBe listOf(2, 3, 6)
     }
+
+    "product of [1, 2, 3, 4, 5] excluding item at index 0 should be 120" {
+        listOf(1, 2, 3, 4, 5).productExcludingItemAtIndex(0) shouldBe 120
+    }
+    "product of [1, 2, 3, 4, 5] excluding item at index 1 should be 60" {
+        listOf(1, 2, 3, 4, 5).productExcludingItemAtIndex(1) shouldBe 60
+    }
+    "given [1, 2, 3, 4, 5] without using division, the expected output would be [120, 60, 40, 30, 24]" {
+        productExcludingItemAtIndexNoDivision(listOf(1, 2, 3, 4, 5)) shouldBe listOf(120, 60, 40, 30, 24)
+    }
 })

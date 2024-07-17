@@ -8,7 +8,13 @@ package july17
 
 fun productExcludingItemAtIndex(numbers:List<Int>):List<Int> {
     val product = numbers.product()
-    return numbers.map { product/it }
+    return numbers.map(product::div)
 }
 
-fun List<Int>.product() = if (isEmpty()) 0 else fold(1) { a, c -> a * c }
+fun List<Int>.product() = if (isEmpty()) 0 else reduce{ acc, v -> acc * v }
+
+fun productExcludingItemAtIndexNoDivision(numbers:List<Int>) =
+    numbers.mapIndexed(numbers::productExcludingItemAtIndex)
+
+fun List<Int>.productExcludingItemAtIndex(index:Int, element:Int = 0) =
+    if (isEmpty()) 0 else reduceIndexed{ i, acc, v -> if (i != index) acc * v else acc }
