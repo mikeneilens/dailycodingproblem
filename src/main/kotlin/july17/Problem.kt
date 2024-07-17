@@ -11,10 +11,10 @@ fun productExcludingItemAtIndex(numbers:List<Int>):List<Int> {
     return numbers.map(product::div)
 }
 
-fun List<Int>.product() = if (isEmpty()) 0 else reduce(Int::times)
+fun List<Int>.product() = reduceOrNull(Int::times) ?: 0
 
 fun productExcludingItemAtIndexNoDivision(numbers:List<Int>) =
     numbers.mapIndexed(numbers::productExcludingItemAtIndex)
 
 fun List<Int>.productExcludingItemAtIndex(index:Int, element:Int = 0) =
-    if (isEmpty()) 0 else reduceIndexed{ i, acc, v -> if (i != index) acc * v else acc }
+    reduceIndexedOrNull(){ i, acc, v -> if (i != index) acc * v else acc } ?: 0
