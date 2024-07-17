@@ -11,7 +11,7 @@ fun productExcludingItemAtIndex(numbers:List<Int>):List<Int> {
     return numbers.map(product::div)
 }
 
-fun List<Int>.product() = if (isEmpty()) 0 else reduce{ acc, v -> acc * v }
+fun List<Int>.product() = if (isEmpty()) 0 else reduce(Int::times)
 
 fun productExcludingItemAtIndexNoDivision(numbers:List<Int>) =
     numbers.mapIndexed(numbers::productExcludingItemAtIndex)
