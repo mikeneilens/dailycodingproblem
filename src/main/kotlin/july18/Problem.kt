@@ -46,15 +46,9 @@ fun String.startOfRightValue() =
     else
         startOfLeftValue() + 12
 
-fun String.leftValueOfNode():Node? {
-    val leftString = drop(startOfLeftValue())
-    return toNodeOrNull(leftString)
-}
+fun String.leftValueOfNode():Node? = drop(startOfLeftValue()).toNodeOrNull()
 
-fun String.rightValueOfNode():Node? {
-    val rightString = drop(startOfRightValue())
-    return toNodeOrNull(rightString)
-}
+fun String.rightValueOfNode():Node? = drop(startOfRightValue()).toNodeOrNull()
 
-private fun toNodeOrNull(string: String) = if (string.startsWith("Node(")) string.deserialise() else null
+private fun String.toNodeOrNull() = if (startsWith("Node(")) deserialise() else null
 
