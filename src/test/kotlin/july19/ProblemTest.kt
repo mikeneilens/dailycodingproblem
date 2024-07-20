@@ -22,5 +22,9 @@ class ProblemTest: StringSpec ({
         val input = listOf(1,2,0)
         input.firstMissingPositiveInteger() shouldBe 3
     }
+    "input [1, 2, 3, 4, 6, 2] should give 5"{
+        val input = listOf(1,2,3,4,6,2)
+        input.firstMissingPositiveInteger() shouldBe 5
+    }
 })
 

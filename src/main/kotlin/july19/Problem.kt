@@ -7,7 +7,7 @@ package july19
 //You can modify the input array in-place.
 
 fun List<Int>.firstMissingPositiveInteger():Int {
-    val elementsGreaterThanZero = filter { it > 0 }
+    val elementsGreaterThanZero = filter { it > 0 }.distinct()
     return (elementsGreaterThanZero
         .sorted()
         .withIndex()
