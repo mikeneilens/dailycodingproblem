@@ -19,5 +19,8 @@ class ProblemTest: StringSpec( {
     "cdr(cons(1,2) returns 2" {
         cdr(cons(a = 1, b = "2")) shouldBe "2"
     }
-
+    "For example, car(cons(3, 4)) returns 3, and cdr(cons(3, 4)) returns 4" {
+        car(cons(a = 3, b = 4)) shouldBe 3
+        cdr(cons(a = 3, b = 4)) shouldBe 4
+    }
 })
