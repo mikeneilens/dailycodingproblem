@@ -2,8 +2,8 @@ package july22
 
 data class Message(val decodedMessage:String, val encodedMessage:String ) {
     private fun decodeDigit(length:Int = 1):Message? =
-        if (encodedMessage.length >= length && map.containsKey(encodedMessage.take(length))) {
-            Message(decodedMessage + map.getValue(encodedMessage.take(length)), encodedMessage.drop(length) )
+        if (encodedMessage.length >= length && lookupTable.containsKey(encodedMessage.take(length))) {
+            Message(decodedMessage + lookupTable.getValue(encodedMessage.take(length)), encodedMessage.drop(length) )
         } else null
 
     fun decoded():List<Message> =
