@@ -20,6 +20,6 @@ fun decodedAllMessages(messages:List<Message>):List<Message> =
     else
         decodedAllMessages(decodedMessages(messages))
 
-fun decodedMessages(messages:List<Message>):List<Message> = messages.flatMap(Message::decoded)
+fun decodedMessages(messages:List<Message>) = messages.flatMap(Message::decoded)
 
 
