@@ -12,7 +12,7 @@ data class Message(val decodedMessage:String, val encodedMessage:String ) {
             val newMessage= decodeDigit(length)
             if (newMessage!= null) result + newMessage else result
         }
-    }
+}
 
 fun decodedAllMessages(messages:List<Message>):List<Message> =
     if (messages.all{it.encodedMessage.isEmpty()})
@@ -20,6 +20,6 @@ fun decodedAllMessages(messages:List<Message>):List<Message> =
     else
         decodedAllMessages(decodedMessages(messages))
 
-fun decodedMessages(messages:List<Message>):List<Message> = messages.flatMap { message -> message.decoded() }
+fun decodedMessages(messages:List<Message>):List<Message> = messages.flatMap(Message::decoded)
 
 
