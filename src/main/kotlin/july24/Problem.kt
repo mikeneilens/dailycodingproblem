@@ -24,3 +24,8 @@ fun createLists(lists:List<List<Int>> = listOf(listOf(0),listOf(1)), maxIndex:In
     return if (newLists.any{it.last() + 2 <= maxIndex}) createLists(newLists, maxIndex)
     else newLists
 }
+fun largestSumOfNonAdjacentNumbers(numbers:List<Int>) = when {
+    (numbers.isEmpty()) -> 0
+    (numbers.size == 1) -> numbers[0]
+    else -> createLists(maxIndex = numbers.lastIndex).map{ it.sumOf{ index -> numbers[index] }}.max()
+}
