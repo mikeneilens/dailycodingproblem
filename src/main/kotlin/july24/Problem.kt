@@ -7,25 +7,33 @@ package july24
 //Follow-up: Can you do this in O(N) time and constant space?
 
 
-//For index 0 create list of [index 0, index 2] and [index 0, index 3]
-//For index 1 create list of [index 1, index 3] and [index 1, index 4]
-//Apply this pattern to the last index of each list so [index 0, index 2] becomes [index 0, index 2, index 2 + 2] and [index 0, index 2, index 2 +3]
-
-fun createLists(lists:List<List<Int>> = listOf(listOf(0),listOf(1)), maxIndex:Int):List<List<Int>> {
-    var newLists = mutableListOf<List<Int>>()
-    lists.forEach { list ->
-        if (list.last() +2 <= maxIndex ) {
-            newLists.add(list + (list.last() + 2))
-            if (list.last() +3 <= maxIndex ) newLists.add(list + (list.last() + 3))
-        } else {
-            newLists.add(list)
+data class NonAdjacentSum(val total:Int, val lastIndex:Int, val numbers:List<Int>):Comparable<NonAdjacentSum>{
+    fun next():List<NonAdjacentSum>  =
+        ((lastIndex + 2)..(lastIndex  + 3)).fold(listOf()){result, index ->
+            if (index < numbers.size) result + NonAdjacentSum(total + numbers[index], index, numbers) else result
         }
-    }
-    return if (newLists.any{it.last() + 2 <= maxIndex}) createLists(newLists, maxIndex)
-    else newLists
+    override operator fun compareTo(other: NonAdjacentSum): Int = total - other.total
 }
-fun largestSumOfNonAdjacentNumbers(numbers:List<Int>) = when {
+
+fun largestSumOfNonAdjacentNumbers2(numbers:List<Int>):Int = when {
     (numbers.isEmpty()) -> 0
     (numbers.size == 1) -> numbers[0]
-    else -> createLists(maxIndex = numbers.lastIndex).map{ it.sumOf{ index -> numbers[index] }}.max()
+    else -> listOf(
+        NonAdjacentSum(numbers[0],0, numbers)
+        ,NonAdjacentSum(numbers[1],1, numbers)).getNextTotals() .maxOf { it.total }
+}
+
+fun List<NonAdjacentSum>.getNextTotals():List<NonAdjacentSum> =
+    if (any{it.lastIndex + 2 < it.numbers.size}) flatMap { it.next() }.bestResults().getNextTotals()
+    else this
+
+fun List<NonAdjacentSum>.bestResults() = maxForKey { it.lastIndex }
+
+fun <E:Comparable<E>,K>List<E>.maxForKey(key: (E)->K):List<E> {
+    val bestResults = mutableMapOf<K, E>()
+    forEach{
+        if (key(it) !in bestResults) bestResults[key(it)] = it
+        else if (it > bestResults.getValue(key(it))) bestResults[key(it)] = it
+    }
+    return bestResults.values.toList()
 }
