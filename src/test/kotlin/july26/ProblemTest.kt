@@ -20,8 +20,12 @@ class ProblemTest:StringSpec( {
     "with a list of ['Ab','ac'] the dictionary is ('a' to ['ac','Ab'],'ab' to ['Ab'],'ac' to ['ac'])" {
         createDictionary(listOf("Ab","ac")) shouldBe mapOf("a" to setOf("Ab","ac"),"ab" to setOf("Ab"),"ac" to setOf("ac"))
     }
-    "autocomplete 'Do' with the long list of animals gives  " {
+    "autocomplete 'Do' with the long list of animals gives [Dodo, Dog, Dolphin, Donkey, Dory, Dove]  " {
         println(dictionary["Do"])
-        autocomplete("do", dictionary) shouldBe listOf<String>("Dodo", "Dog", "Dolphin", "Donkey", "Dory", "Dove")
+        autocomplete("do", dictionary) shouldBe listOf("Dodo", "Dog", "Dolphin", "Donkey", "Dory", "Dove")
+    }
+    "autocomplete 'Don' with the long list of animals gives Donkey" {
+        println(dictionary["Don"])
+        autocomplete("don", dictionary) shouldBe listOf("Donkey")
     }
 })
