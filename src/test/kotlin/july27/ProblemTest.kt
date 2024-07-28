@@ -28,4 +28,7 @@ class ProblemTest: StringSpec({
     "UniqueSteps when staircase has 3 steps and allowed steps are [1,2,3] is [[1,1,1],[1,2],[2,1],[3]]" {
         uniqueSteps(stairCaseSteps = 3, allowedSteps = listOf(1,2,3)).toSet() shouldBe setOf(listOf(1,1,1),listOf(1,2),listOf(2,1),listOf(3))
     }
+    "UniqueSteps when staircase has 1 steps and allowed steps are [2,3] is []" {
+        uniqueSteps(stairCaseSteps = 1, allowedSteps = listOf(2,3)) shouldBe listOf()
+    }
 })
