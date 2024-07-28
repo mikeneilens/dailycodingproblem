@@ -8,8 +8,10 @@ fun longestString(s:String, k:Int, longestFound:String = ""):String {
     if (s.isEmpty()) return longestFound
     val charactersFound = mutableSetOf<Char>()
     val result = s.takeWhile { addCharacterToSetOrReturnFalse(it, k, charactersFound) }
-    return if (result.length > longestFound.length) longestString(s.drop(1),k,result) else longestString(s.drop(1),k,longestFound)
+    return longestString(s.drop(1),k, longestOf(longestFound, result))
 }
+
+fun longestOf(s1:String, s2:String) = if (s1.length >= s2.length) s1 else s2
 
 fun addCharacterToSetOrReturnFalse(c:Char, k:Int, charactersFound:MutableSet<Char>):Boolean {
     if (c !in charactersFound && charactersFound.size == k) return false
