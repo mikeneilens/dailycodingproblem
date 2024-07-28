@@ -12,8 +12,7 @@ package july27
 //What if, instead of being able to climb 1 or 2 steps at a time, you could climb any number from a set of positive integers X? For example, if X = {1, 3, 5}, you could climb 1, 3, or 5 steps at a time.
 
 fun uniqueSteps(stairCaseSteps: Int, allowedSteps: List<Int> = listOf(1,2) ) =
-    uniqueSteps(stairCaseSteps = stairCaseSteps, allowedSteps = allowedSteps, possibleSteps =  allowedSteps.map(::listOf)
-    )
+    uniqueSteps(stairCaseSteps = stairCaseSteps, allowedSteps = allowedSteps, possibleSteps =  allowedSteps.map(::listOf))
 
 fun uniqueSteps(stairCaseSteps: Int, allowedSteps: List<Int>, possibleSteps: List<List<Int>>):List<List<Int>> =
     if (possibleSteps.all{it.sum()>= stairCaseSteps})
