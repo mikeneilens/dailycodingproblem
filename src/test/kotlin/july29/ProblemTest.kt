@@ -2,7 +2,6 @@ package july29
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import kotlin.math.pow
 
 class ProblemTest: StringSpec({
     "point 0.5, 0.5 is inside the circle" {
@@ -18,10 +17,10 @@ class ProblemTest: StringSpec({
         pointIsInCircle(x = 0.1, y = 0.1) shouldBe false
     }
     "if random generator always returns 1.0 all points generated will be outside of the circle" {
-        addPointsToCircle(qtyToAdd = 100, randomDouble =  {1.0}) shouldBe 0
+        qtyOfRandomPointsInsideCircle(qtyToAdd = 100, randomDouble =  {1.0}) shouldBe 0
     }
     "if random generator always returns 0.5 all points generated will be inside of the circle" {
-        addPointsToCircle(qtyToAdd = 100, randomDouble =  {0.5}) shouldBe 100
+        qtyOfRandomPointsInsideCircle(qtyToAdd = 100, randomDouble =  {0.5}) shouldBe 100
     }
     "calculate pi" {
         val pi = calculatePi(1000000)
