@@ -13,11 +13,12 @@ import kotlin.random.Random
 //     squareRoot of (a^2 + y^2) where a and b are the horizontal and vertical distance from the centre.
 fun pointIsInCircle(x:Double, y:Double) = ((y - 0.5).pow(2) + (x - 0.5).pow(2)).pow(0.5) <= 0.5
 
-fun addPointsToCircle(qtyToAdd:Int):Int {
+
+fun addPointsToCircle(qtyToAdd:Int, randomDouble:()->Double = {Random.nextDouble()} ):Int {
     var i = 0
     var qtyInsideCircle = 0
     while (i++ < qtyToAdd) {
-        if (pointIsInCircle(Random.nextDouble(),Random.nextDouble())) qtyInsideCircle++
+        if (pointIsInCircle(randomDouble(),randomDouble())) qtyInsideCircle++
     }
     return qtyInsideCircle
 }
