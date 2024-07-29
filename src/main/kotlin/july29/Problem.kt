@@ -29,4 +29,4 @@ fun calculatePi(qtyToAdd:Int):Double {
     return (4.0 * qtyInsideCirlce / qtyToAdd).roundToThreeDigits()
 }
 
-fun Double.roundToThreeDigits() = "%.${3}f".format(this).toDouble()
+fun Double.roundToThreeDigits() = "%.3f".format(this).toDouble()
