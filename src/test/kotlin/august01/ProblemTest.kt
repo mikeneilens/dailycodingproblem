@@ -11,13 +11,13 @@ class ProblemTest: StringSpec({
         parse("dir") shouldBe listOf("/dir")
     }
     "first name in dir/n/tsubdir1 should be dir" {
-        "dir\\n\\tsubdir1".getFirstName() shouldBe "dir"
+        FileSystem("dir\\n\\tsubdir1").nextName() shouldBe "dir"
     }
     "level of empty string should be 0" {
-        "".getLevel() shouldBe 0
+        FileSystem("").nextLevel() shouldBe 0
     }
     "level of /n/tsubdir1 should be 1" {
-        "\\n\\tsubdir1".getLevel() shouldBe 1
+        FileSystem("\\n\\tsubdir1").nextLevel() shouldBe 1
     }
     "s.x is a file name" {
         "s.x".isFile() shouldBe true

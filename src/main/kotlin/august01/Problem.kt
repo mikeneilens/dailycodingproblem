@@ -33,17 +33,24 @@ package august01
 
 fun problem(string:String) = parse(string).filter(String::isFile).maxBy { it.length }.length - 1
 
-data class FileSystem(var input:String, var level:Int = 0, val pathForLevel:MutableMap<Int, String> = mutableMapOf<Int, String>() ) {
+data class FileSystem(var input:String, var level:Int = 0, val pathForLevel:MutableMap<Int, String> = mutableMapOf() ) {
     fun extractName():String {
-        val name = pathForLevel.getOrDefault(level - 1,"") + "/" + input.getFirstName()
-        input = input.removePrefix(input.getFirstName())
+        val name = pathForLevel.getOrDefault(level - 1,"") + "/" + nextName()
+        input = input.removePrefix(nextName())
         if (!name.isFile()) pathForLevel[level] = name
         return name
     }
     fun updateLevel() {
-        level = input.getLevel()
+        level = nextLevel()
         input = input.drop((level + 1) * 2)
     }
+
+    fun nextName() = input.takeWhile {it != '\\'}
+
+    fun nextLevel() =
+        if ("\\" !in input) 0 else
+            input.chunked(2).takeWhile { it.contains("\\") }.joinToString("").length/2 - 1
+
 }
 
 fun parse(string:String):List<String> {
@@ -55,10 +62,5 @@ fun parse(string:String):List<String> {
     }
     return names
 }
-fun String.getFirstName() = takeWhile(){it != '\\'}
-
-fun String.getLevel() =
-    if ("\\" !in this) 0 else
-    chunked(2).takeWhile { it.contains("\\") }.joinToString("").length/2 - 1
 
 fun String.isFile() = split(".").filter(String::isNotEmpty).size == 2
