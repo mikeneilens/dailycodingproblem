@@ -31,19 +31,27 @@ package august01
 //
 //The name of a directory or sub-directory will not contain a period
 
+fun problem(string:String) = parse(string).filter(String::isFile).maxBy { it.length }.length - 1
 
-fun parse(string:String):List<String> {
-    var input = string
-    val names = mutableListOf<String>()
-    val levelName = mutableMapOf<Int, String>()
-    var level = 0
-    while (level > 0 || names.isEmpty()) {
-        val name = levelName.getOrDefault(level - 1,"") + "/" + input.getFirstName()
-        names.add(name.removePrefix("/"))
+data class FileSystem(var input:String, var level:Int = 0, val pathForLevel:MutableMap<Int, String> = mutableMapOf<Int, String>() ) {
+    fun extractName():String {
+        val name = pathForLevel.getOrDefault(level - 1,"") + "/" + input.getFirstName()
         input = input.removePrefix(input.getFirstName())
-        if (!name.isFileName()) levelName[level] = name
+        if (!name.isFile()) pathForLevel[level] = name
+        return name
+    }
+    fun updateLevel() {
         level = input.getLevel()
         input = input.drop((level + 1) * 2)
+    }
+}
+
+fun parse(string:String):List<String> {
+    val fileSystem = FileSystem(string)
+    val names = mutableListOf<String>()
+    while (fileSystem.input.isNotEmpty()) {
+        names.add(fileSystem.extractName())
+        fileSystem.updateLevel()
     }
     return names
 }
@@ -53,4 +61,4 @@ fun String.getLevel() =
     if ("\\" !in this) 0 else
     chunked(2).takeWhile { it.contains("\\") }.joinToString("").length/2 - 1
 
-fun String.isFileName() = split(".").filter(String::isNotEmpty).size == 2
+fun String.isFile() = split(".").filter(String::isNotEmpty).size == 2
