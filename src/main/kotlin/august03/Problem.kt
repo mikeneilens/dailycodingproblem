@@ -3,8 +3,6 @@ package august03
 //
 //Given an N by K matrix where the nth row and kth column represents the cost to build the nth house with kth color, return the minimum cost which achieves this goal.
 
-data class Rules(val noOfHouses:Int, val choiceOfColours:IntRange, val costGrid:List<List<Int>> )
-
 typealias CostGrid = List<List<Int>>
 
 val CostGrid.choiceOfColours get() = 0..first().lastIndex
@@ -13,6 +11,7 @@ val CostGrid.noOfHouses get() = lastIndex
 data class House(val houseNo:Int, val colour:Int, val costToGetHere:Int, val previousHouses:List<House> = listOf(), val costGrid:CostGrid):Comparable<House> {
     fun isLastHouse() = houseNo == costGrid.noOfHouses
 
+    //next house is one that is not the same colour and cheapest to build
     fun nextHouse() =
         costGrid.choiceOfColours
             .filter{it != colour}
@@ -27,10 +26,10 @@ fun problem(costGrid:CostGrid):House? {
 }
 
 //Not sure if this is right or efficient but this does a uniform cost search
-fun buildHouse(houses:List<House> ):House? {
-    if (houses.isEmpty()) return null
-    if (houses.any(House::isLastHouse)) return houses.first(House::isLastHouse)
-    return buildHouse(houses.addHouseToQueue())
+fun buildHouse(housesQueue:List<House> ):House? {
+    if (housesQueue.isEmpty()) return null
+    if (housesQueue.any(House::isLastHouse)) return housesQueue.first(House::isLastHouse)
+    return buildHouse(housesQueue.addHouseToQueue())
 }
 
 fun List<House>.addHouseToQueue() = (drop(1) + first().nextHouse()).sorted()
