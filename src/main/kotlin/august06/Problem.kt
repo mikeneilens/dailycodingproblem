@@ -8,8 +8,6 @@ package august06
 //Given the set of words 'bed', 'bath', 'bedbath', 'and', 'beyond', and the string "bedbathandbeyond",
 // return either ['bed', 'bath', 'and', 'beyond] or ['bedbath', 'and', 'beyond'].
 
-
-
 fun problem(dictionary:Set<String>, string:String) = string.findWordsIn(dictionary).filter(List<String>::isNotEmpty)
 
 fun String.findWordsIn(dictionary:Set<String>, result:List<String> = listOf()):List<List<String>> =
