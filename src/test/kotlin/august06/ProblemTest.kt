@@ -26,7 +26,7 @@ class ProblemTest: StringSpec({
         val words= setOf("quick", "brown", "the", "fox")
         problem(words, "thequickbrownfox ") shouldBe listOf("the", "quick", "brown", "fox")
     }
-    "string bedbathandbeyond and set of words [bed, bath, bedbath, and, beyond]" {
+    "string bedbathandbeyond and set of words [bed, bath, bedbath, and, beyond] return [bedbath, and, beyond]" {
          val words = setOf("bed", "bath", "bedbath", "and", "beyond")
         problem(words, "bedbathandbeyond") shouldBe listOf("bedbath", "and", "beyond")
     }
