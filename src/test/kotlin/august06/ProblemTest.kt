@@ -30,5 +30,4 @@ class ProblemTest: StringSpec({
          val words = setOf("bed", "bath", "bedbath", "and", "beyond")
         problem(words, "bedbathandbeyond") shouldBe listOf("bedbath", "and", "beyond")
     }
-
 })

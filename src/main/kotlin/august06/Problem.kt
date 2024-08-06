@@ -16,7 +16,7 @@ tailrec fun String.findWordsIn(dictionary:Set<String>, result:List<String> = lis
         isEmpty() -> result
         else -> {
             val wordFound = wordFoundIn(dictionary)
-            drop(wordFound.first().length).findWordsIn(dictionary,  result + wordFound )
+            drop(wordFound.first().length).findWordsIn(dictionary, result + wordFound)
         }
     }
 
