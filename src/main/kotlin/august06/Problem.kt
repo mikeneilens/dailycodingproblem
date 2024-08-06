@@ -8,18 +8,19 @@ package august06
 //Given the set of words 'bed', 'bath', 'bedbath', 'and', 'beyond', and the string "bedbathandbeyond",
 // return either ['bed', 'bath', 'and', 'beyond] or ['bedbath', 'and', 'beyond'].
 
-fun problem(dictionary:Set<String>, string:String) = if (string.isEmpty() || dictionary.isEmpty()) null else string.findWordsIn(dictionary)
+fun problem(dictionary:Set<String>, string:String) = string.findWordsIn(dictionary)
 
-tailrec fun String.findWordsIn(dictionary:Set<String>, result:List<String> = listOf()):List<String> =
-    if (isEmpty())
-        result
-    else {
-        val (length ,wordFound) = wordFoundIn(dictionary)
-        drop(length).findWordsIn(dictionary,  result + wordFound )
+tailrec fun String.findWordsIn(dictionary:Set<String>, result:List<String> = listOf()):List<String>? =
+    when {
+        result.contains("") -> null
+        isEmpty() -> result
+        else -> {
+            val wordFound = wordFoundIn(dictionary)
+            drop(wordFound.first().length).findWordsIn(dictionary,  result + wordFound )
+        }
     }
 
-//returns either (word.length, [word]) if word is found in the dictionary or (1, []) if it isn't found
-fun String.wordFoundIn(dictionary: Set<String>):Pair<Int, List<String>> {
+fun String.wordFoundIn(dictionary: Set<String>):List<String> {
     val wordLength = (1..length).lastOrNull{ take(it) in dictionary }
-    return if (wordLength != null) Pair(wordLength, listOf( take(wordLength))) else Pair(1, listOf())
+    return if (wordLength != null) listOf(take(wordLength)) else listOf("")
 }

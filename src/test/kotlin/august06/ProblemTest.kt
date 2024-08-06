@@ -4,8 +4,8 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class ProblemTest: StringSpec({
-    "empty string should return null" {
-        problem(dictionary= setOf(), string = "") shouldBe null
+    "empty string should return empty list" {
+        problem(dictionary= setOf(), string = "") shouldBe emptyList()
     }
     "string containing a and an empty set of words should return null" {
         problem(dictionary= setOf(), string = "a") shouldBe null
@@ -13,8 +13,8 @@ class ProblemTest: StringSpec({
     "string containing a and set of words is [a] should return [a]" {
         problem(dictionary= setOf("a"), string = "a") shouldBe listOf("a")
     }
-    "string containing ab and set of words is [a] should return [a]" {
-        problem(dictionary= setOf("a"), string = "ab") shouldBe listOf("a")
+    "string containing ab and set of words is [a] should return null because b isn't in the dictionary" {
+        problem(dictionary= setOf("a"), string = "ab") shouldBe null
     }
     "string containing ab and set of words is [a,ab] should return [ab]" {
         problem(dictionary= setOf("a", "ab"), string = "ab") shouldBe listOf("ab")
@@ -24,7 +24,7 @@ class ProblemTest: StringSpec({
     }
     "string thequickbrownfox and set of words [quick, brown, the, fox] should return [the, quick, brown, fox]." {
         val words= setOf("quick", "brown", "the", "fox")
-        problem(words, "thequickbrownfox ") shouldBe listOf("the", "quick", "brown", "fox")
+        problem(words, "thequickbrownfox") shouldBe listOf("the", "quick", "brown", "fox")
     }
     "string bedbathandbeyond and set of words [bed, bath, bedbath, and, beyond] return [bedbath, and, beyond]" {
          val words = setOf("bed", "bath", "bedbath", "and", "beyond")
