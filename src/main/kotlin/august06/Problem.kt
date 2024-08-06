@@ -8,19 +8,18 @@ package august06
 //Given the set of words 'bed', 'bath', 'bedbath', 'and', 'beyond', and the string "bedbathandbeyond",
 // return either ['bed', 'bath', 'and', 'beyond] or ['bedbath', 'and', 'beyond'].
 
-fun problem(dictionary:Set<String>, string:String) = string.findWordsIn(dictionary)
 
-tailrec fun String.findWordsIn(dictionary:Set<String>, result:List<String> = listOf()):List<String>? =
+
+fun problem(dictionary:Set<String>, string:String) = string.findWordsIn(dictionary).filter(List<String>::isNotEmpty)
+
+fun String.findWordsIn(dictionary:Set<String>, result:List<String> = listOf()):List<List<String>> =
     when {
-        result.contains("") -> null
-        isEmpty() -> result
-        else -> {
-            val wordFound = wordFoundIn(dictionary)
-            drop(wordFound.first().length).findWordsIn(dictionary, result + wordFound)
-        }
+        isEmpty() -> listOf(result)
+        else -> wordsFoundIn(dictionary)
+            .flatMap{wordFound -> drop(wordFound.length).findWordsIn(dictionary, result + listOf(wordFound))}
     }
 
-fun String.wordFoundIn(dictionary: Set<String>):List<String> {
-    val wordLength = (1..length).lastOrNull{ take(it) in dictionary }
-    return if (wordLength != null) listOf(take(wordLength)) else listOf("")
-}
+fun String.wordsFoundIn(dictionary: Set<String>):List<String> =
+    (1..length).mapNotNull{ if (take(it) in dictionary) take(it) else null }
+
+
