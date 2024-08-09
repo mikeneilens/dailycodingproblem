@@ -11,18 +11,18 @@ package august09
 //Given the regular expression ".*at" and the string "chat", your function should return true. The same regular expression on the string "chats" should return false.
 
 sealed class RegexItem {
-    abstract fun isMatched(c:Char):Boolean
+    abstract infix fun matches(c:Char):Boolean
 
     data class Character(val value:Char):RegexItem() {
-        override fun isMatched(c:Char) = c == value
+        override infix fun matches(c:Char) = c == value
     }
 
     data class Repeat(val value:RegexItem):RegexItem() {
-        override fun isMatched(c:Char) = value.isMatched(c)
+        override infix fun matches(c:Char) = value.matches(c)
     }
 
     data object Wildcard:RegexItem() {
-        override fun isMatched(c: Char) = true
+        override infix fun matches(c: Char) = true
     }
 }
 
@@ -36,17 +36,22 @@ fun String.parse():List<RegexItem> = foldIndexed(listOf()){ index, result, char 
 
 fun Char.charOrWildCard() = if (equals('.')) RegexItem.Wildcard else RegexItem.Character(this)
 
-fun problem(s:String, regex:List<RegexItem>):Boolean {
-    var regexIndex = 0
-    s.forEach { char ->
-        if (regexIndex > regex.lastIndex) return false
-        if (regex[regexIndex] is RegexItem.Repeat) {
-            if (!regex[regexIndex].isMatched(char)) {
-                regexIndex ++
-            }
-        }
-        if (!regex[regexIndex].isMatched(char)) return false
-        if (regex[regexIndex] !is RegexItem.Repeat) regexIndex++
-    }
-    return regexIndex == regex.size || regex.last() is RegexItem.Repeat && regex.last().isMatched(s.last())
+fun problem(string:String, regex:List<RegexItem>, sIndex:Int = 0, rIndex:Int = 0):Boolean = when {
+    (sIndex > string.lastIndex) -> rIndex == regex.size || regex.last() is RegexItem.Repeat && regex.last() matches string.last()
+
+    (rIndex > regex.lastIndex) -> false
+
+     (regex[rIndex] is RegexItem.Repeat) -> {
+         if ( regex[rIndex] matches string[sIndex]) {
+             problem(string, regex, sIndex + 1, rIndex)
+         } else {
+             problem(string, regex, sIndex, rIndex + 1)
+         }
+     } else -> {
+         if (regex[rIndex] matches string[sIndex]) {
+             problem(string, regex, sIndex + 1, rIndex + 1)
+         } else {
+            false
+         }
+     }
 }
