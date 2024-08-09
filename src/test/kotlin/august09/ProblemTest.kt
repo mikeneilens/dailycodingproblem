@@ -62,9 +62,9 @@ class ProblemTest: StringSpec( {
         val regex = "ab*c".parse()
         problem("ac", regex) shouldBe true
     }
-    "when string contains abc and regex is ab* then return false" {
+    "when string contains ac and regex is ab* then return false" {
         val regex = "ab*".parse()
-        problem("abc", regex) shouldBe false
+        problem("ac", regex) shouldBe false
     }
     "when string contains anything and regex is .* then return true" {
         val regex = ".*".parse()
