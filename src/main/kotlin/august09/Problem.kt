@@ -37,7 +37,7 @@ fun String.parse():List<RegexItem> = foldIndexed(listOf()){ index, result, char 
 fun Char.charOrWildCard() = if (equals('.')) RegexItem.Wildcard else RegexItem.Character(this)
 
 fun problem(string:String, regex:List<RegexItem>, sIndex:Int = 0, rIndex:Int = 0):Boolean = when {
-    (sIndex > string.lastIndex) -> rIndex == regex.size || regex.last() is RegexItem.Repeat && regex.last() matches string.last()
+    (sIndex > string.lastIndex) -> rIndex == regex.size || rIndex == regex.lastIndex && regex.last() is RegexItem.Repeat
 
     (rIndex > regex.lastIndex) -> false
 

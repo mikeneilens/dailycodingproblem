@@ -17,11 +17,11 @@ class ProblemTest: StringSpec( {
         ".*".parse() shouldBe listOf(RegexItem.Repeat(RegexItem.Wildcard))
     }
     //not sure what this case should do
-    "when string contains * it parses into a regexitem.character(*)" {
+    "when string contains * it parses into an empty list" {
         "*".parse() shouldBe listOf()
     }
     //not sure what this case should do
-    "when string contains ** it parses into an empty list" {
+    "when string contains ** it parses into a regexitem.repeat(regexitem.character('*'))" {
         "**".parse() shouldBe listOf(RegexItem.Repeat(RegexItem.Character('*')))
     }
 
@@ -53,6 +53,10 @@ class ProblemTest: StringSpec( {
     "when string contains abb and regex is ab* then return true" {
         val regex = "ab*".parse()
         problem("abb", regex) shouldBe true
+    }
+    "when string contains a and regex is ab* then return true" {
+        val regex = "ab*".parse()
+        problem("a", regex) shouldBe true
     }
     "when string contains anything and regex is .* then return true" {
         val regex = ".*".parse()
