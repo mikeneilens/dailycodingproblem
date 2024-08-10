@@ -43,7 +43,7 @@ fun problem(string:String, regex:List<RegexItem>, sIndex:Int = 0, rIndex:Int = 0
 
      (regex[rIndex] is RegexItem.Repeat) -> {
          if ( regex[rIndex] matches string[sIndex]) {
-             problem(string, regex, sIndex + 1, rIndex)
+             problem(string, regex, sIndex + 1, rIndex) || problem(string, regex, sIndex + 1, rIndex + 1)
          } else {
              problem(string, regex, sIndex, rIndex + 1)
          }

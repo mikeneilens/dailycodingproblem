@@ -70,4 +70,12 @@ class ProblemTest: StringSpec( {
         val regex = ".*".parse()
         problem("anything", regex) shouldBe true
     }
+    "when string contains chat and regex is .*at then return true" {
+        val regex = ".*at".parse()
+        problem("chat", regex) shouldBe true
+    }
+    "when string contains chats and regex is .*at then return false" {
+        val regex = ".*at".parse()
+        problem("chats", regex) shouldBe false
+    }
 })
