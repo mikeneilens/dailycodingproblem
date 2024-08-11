@@ -8,10 +8,14 @@ package august10
 
 class Node(val value:Int, var next:Node? = null)
 
-fun problem(node:Node, k:Int):Node {
+fun problem(node:Node, k:Int):Node? {
     val nodeBeforeOneToRemove = kThFromLast(node, k + 1)
-    nodeBeforeOneToRemove?.next = nodeBeforeOneToRemove?.next?.next
-    return node
+    if (nodeBeforeOneToRemove != null) {
+        nodeBeforeOneToRemove.next = nodeBeforeOneToRemove.next?.next
+        return node
+    } else {
+        return node.next
+    }
 }
 
 fun kThFromLast(root:Node, k:Int, currentNode:Node = root, n:Int = 1, result:Node? = null):Node? {
