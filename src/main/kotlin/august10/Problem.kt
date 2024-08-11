@@ -24,6 +24,5 @@ fun kThFromLast(root:Node, k:Int, currentNode:Node = root, n:Int = 1, result:Nod
             kThFromLast(root, k , currentNode = next, n = n + 1, result = root)
         else
             kThFromLast(root, k , currentNode = next, n = n + 1, result = result?.next)
-
     } ?: return result
 }
