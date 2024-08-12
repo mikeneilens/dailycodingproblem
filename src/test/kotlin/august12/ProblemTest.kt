@@ -28,7 +28,7 @@ class ProblemTest: StringSpec({
     "if list is [the _quick _brown] adding padding to word 4 gives [the __quick _brown]" {
         listOf("the", " quick", " brown").addPadding(4) shouldBe listOf("the", "  quick", " brown")
     }
-    "if row is [the _quick _brown] adding padding to the row for size 15 gives [the __quick _brown]" {
+    "if row is [the _quick _brown] adding padding to the row for size 15 gives [the _quick _brown]" {
         listOf("the", " quick", " brown").padRow(15) shouldBe listOf("the", " quick", " brown")
     }
     "if row is [the _quick _brown] adding padding to the row for size 16 gives [the __quick _brown]" {
