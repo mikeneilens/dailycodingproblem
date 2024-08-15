@@ -21,17 +21,15 @@ fun levenshteinFullMatrix(str1: String, str2: String, matrix: Matrix = mutableMa
     str1.forEachIndexed  { i, char1 ->
         str2.forEachIndexed { j, char2 ->
             matrix[P(i + 1, j + 1)] =
-                if (char1 == char2) { //Characters match
-                    matrix.get(i, j)
-                } else {
-                    1 + minOf(
-                        matrix.get(i + 1, j),   //Insert
-                        matrix.get(i,  j + 1),  //Remove
-                        matrix.get(i, j) // Replace
-                    )
-                }
+                if (char1 == char2) matrix.get(i, j) else insertRemoveOrReplace(matrix, i, j)
         }
     }
     return matrix
 }
+
+fun insertRemoveOrReplace(matrix: Matrix, i: Int, j: Int) = 1 + minOf(
+    matrix.get(i + 1, j),   //Insert
+    matrix.get(i, j + 1),  //Remove
+    matrix.get(i, j) // Replace
+)
 
