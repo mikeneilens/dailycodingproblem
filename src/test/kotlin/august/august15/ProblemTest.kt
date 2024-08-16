@@ -1,5 +1,8 @@
-package august15
+package august.august15
 
+import august.august15.get
+import august.august15.levenshteinFullMatrix
+import august.august15.problem
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 

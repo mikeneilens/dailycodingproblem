@@ -1,5 +1,8 @@
-package august13
+package august.august13
 
+import august.august13.encodeAsString
+import august.august13.problem
+import august.august13.toPairs
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 

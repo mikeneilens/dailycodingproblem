@@ -1,5 +1,7 @@
-package august11
+package august.august11
 
+import august.august11.problem
+import august.august11.removeMatchedBrackets
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 

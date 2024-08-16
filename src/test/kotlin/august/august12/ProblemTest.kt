@@ -1,5 +1,9 @@
-package august12
+package august.august12
 
+import august.august12.addPadding
+import august.august12.createRows
+import august.august12.padRow
+import august.august12.problem
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 

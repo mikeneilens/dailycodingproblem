@@ -1,4 +1,4 @@
-package august15
+package august.august15
 
 //The edit distance between two strings refers to the minimum number of character insertions, deletions, and
 // substitutions required to change one string to the other.
@@ -17,7 +17,7 @@ fun problem(str1:String, str2: String):Int {
     return matrix[P(str1.lastIndex, str2.lastIndex)] ?: 0
 }
 
-fun levenshteinFullMatrix(str1: String, str2: String, matrix: Matrix = mutableMapOf()):Matrix {
+fun levenshteinFullMatrix(str1: String, str2: String, matrix: Matrix = mutableMapOf()): Matrix {
     str1.forEachIndexed  { i, char1 ->
         str2.forEachIndexed { j, char2 ->
             matrix[P(i + 1, j + 1)] =
