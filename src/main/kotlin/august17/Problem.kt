@@ -15,13 +15,14 @@ package august17
 //2
 
 fun problem(list:List<Int>):List<Double> = list.fold(Pair(listOf<Double>(), listOf<Int>())){ output, value ->
-        val newMedian = (output.second + listOf(value)).sorted().median()
+        val newMedian = (output.second + listOf(value)).median()
         Pair(output.first + newMedian, output.second + value)
 }.first
 
 fun List<Int>.median():Double {
     val middleRange = middleRange()
-    return 1.0 * middleRange.sumOf { this[it] } / middleRange.size
+    val sorted = sorted()
+    return 1.0 * middleRange.sumOf { sorted[it] } / middleRange.size
 }
 
 fun List<Int>.middleRange() = if (size % 2 == 1) listOf(size/2) else listOf(size/2 - 1, size/2)
