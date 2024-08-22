@@ -10,7 +10,7 @@ class ProblemTest: StringSpec( {
     "power set of [1] is a set of [[],[1]]" {
         setOf(1).powerSet() shouldBe setOf(setOf(), setOf(1))
     }
-    "power set of [2] when output already contains [[],[1]] is [[],[1],[2],[1,2]]" {
+    "power set of [2] when output already contains [[],[1]] is [[],[1],[2],[1,2]] as 2 is added as a subset and added to each existing subset" {
         setOf(2).powerSet(setOf(setOf(), setOf(1))) shouldBe setOf(setOf(),setOf(1),setOf(2),setOf(1,2))
     }
     "power set of [1,2] is a set of [[],[1],[2],[1,2]]" {
