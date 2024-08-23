@@ -1,5 +1,8 @@
-package august17
+package august.august17
 
+import august.august17.median
+import august.august17.middleRange
+import august.august17.problem
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 

@@ -1,5 +1,9 @@
-package august16
+package august.august16
 
+import august.august16.Exchange
+import august.august16.bestRoutes
+import august.august16.conversion
+import august.august16.toExchanges
 import io.kotest.core.spec.style.WordSpec
 import io.kotest.matchers.shouldBe
 
@@ -18,14 +22,18 @@ class ProblemTest: WordSpec( {
                 listOf(1.0,2.0),
                 listOf(0.5,1.0),
             )
-            exhanges.toExchanges(currencies) shouldBe listOf(Exchange(currencyFrom="A", currencyTo="A", rate=0.0),
+            exhanges.toExchanges(currencies) shouldBe listOf(
+                Exchange(currencyFrom="A", currencyTo="A", rate=0.0),
                 Exchange(currencyFrom="A", currencyTo="B", rate=2.0),
                 Exchange(currencyFrom="B", currencyTo="A", rate=0.5),
-                Exchange(currencyFrom="B", currencyTo="B", rate=0.0))
+                Exchange(currencyFrom="B", currencyTo="B", rate=0.0)
+            )
         }
         "conversion of 10 from B to A when B to A has an exchange rate of 0.5 gives 5" {
-            val exchanges = listOf(Exchange(currencyFrom="A", currencyTo="B", rate=2.0),
-                Exchange(currencyFrom="B", currencyTo="A", rate=0.5))
+            val exchanges = listOf(
+                Exchange(currencyFrom="A", currencyTo="B", rate=2.0),
+                Exchange(currencyFrom="B", currencyTo="A", rate=0.5)
+            )
             exchanges.conversion(value = 10.0, from = "B", to = "A") shouldBe 5
         }
     }
@@ -39,7 +47,8 @@ class ProblemTest: WordSpec( {
                 Exchange(currencyFrom="A", currencyTo="A", rate=1.0),
                 Exchange(currencyFrom="A", currencyTo="B", rate=2.0),
                 Exchange(currencyFrom="B", currencyTo="A", rate=0.5),
-                Exchange(currencyFrom="B", currencyTo="B", rate=1.0))
+                Exchange(currencyFrom="B", currencyTo="B", rate=1.0)
+            )
             exchanges.bestRoutes("A") shouldBe listOf()
         }
         "with two currency where the 2nd currency has a favourable rate back to A the best should be one route which is conversion A->B->A " {
@@ -47,7 +56,8 @@ class ProblemTest: WordSpec( {
                 Exchange(currencyFrom="A", currencyTo="A", rate=1.0),
                 Exchange(currencyFrom="A", currencyTo="B", rate=2.0),
                 Exchange(currencyFrom="B", currencyTo="A", rate=0.6),
-                Exchange(currencyFrom="B", currencyTo="B", rate=1.0))
+                Exchange(currencyFrom="B", currencyTo="B", rate=1.0)
+            )
             exchanges.bestRoutes("A") shouldBe listOf(
                 listOf(Exchange(currencyFrom="A", currencyTo="B", rate=2.0), Exchange(currencyFrom="B", currencyTo="A", rate=0.6)))
         }
@@ -64,7 +74,11 @@ class ProblemTest: WordSpec( {
                 Exchange(currencyFrom="C", currencyTo="C", rate=1.0)
             )
             exchanges.bestRoutes("A") shouldBe listOf(
-                listOf(Exchange(currencyFrom="A", currencyTo="B", rate=1.0),Exchange(currencyFrom="B", currencyTo="C", rate=1.0),Exchange(currencyFrom="C", currencyTo="A", rate=1.1))
+                listOf(
+                    Exchange(currencyFrom="A", currencyTo="B", rate=1.0),
+                    Exchange(currencyFrom="B", currencyTo="C", rate=1.0),
+                    Exchange(currencyFrom="C", currencyTo="A", rate=1.1)
+                )
                 )
         }
     }

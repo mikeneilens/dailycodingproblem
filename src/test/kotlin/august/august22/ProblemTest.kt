@@ -1,5 +1,6 @@
-package august22
+package august.august22
 
+import august.august22.powerSet
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
