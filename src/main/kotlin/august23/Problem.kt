@@ -12,12 +12,12 @@ data class Queen(val position:Position, val boardRange:IntRange) {
     val occupiedSquares = (horizontalSquares + verticalSquares + rightDiagnal + leftDiagnal).toSet()
 }
 
-fun possiblePositions(board:List<Queen>, boardPositions:Set<Position>):Set<Position> {
-    val occupiedSquares:Set<Position> =  board.occupiedSquares()
-    return boardPositions - occupiedSquares
+fun problem(boardRange:IntRange):Int {
+    val boardPositions:Set<Position> = boardRange.flatMap { row -> boardRange.map{col -> Position(row, col) } }.toSet()
+    val queen = Queen(Position(1,1), boardRange)
+    val allResults = addQueen(listOf(queen), BoardStatus(boardPositions), boardRange)
+    return allResults.maxOf { it.size }
 }
-
-fun List<Queen>.occupiedSquares() = fold(setOf<Position>()){ result, queen -> result + queen.occupiedSquares}
 
 data class BoardStatus(val boardPositions:Set<Position>, var bestFound:List<Queen> = listOf(), val bestPossible:Int = boardPositions.distinctBy {it.row}.size) {
     fun solutionFound() = bestFound.size == bestPossible
@@ -32,3 +32,10 @@ fun addQueen(board:List<Queen>, boardStatus:BoardStatus, boardRange:IntRange ):L
     }
     else return possiblePositions.flatMap{position -> addQueen(board + Queen(position, boardRange), boardStatus, boardRange)}
 }
+
+fun possiblePositions(board:List<Queen>, boardPositions:Set<Position>):Set<Position> {
+    val occupiedSquares:Set<Position> =  board.occupiedSquares()
+    return boardPositions - occupiedSquares
+}
+
+fun List<Queen>.occupiedSquares() = fold(setOf<Position>()){ result, queen -> result + queen.occupiedSquares}

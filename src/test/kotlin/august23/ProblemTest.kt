@@ -1,6 +1,7 @@
 package august23
 
 import io.kotest.core.spec.style.WordSpec
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 
 class ProblemTest: WordSpec( {
@@ -66,6 +67,19 @@ class ProblemTest: WordSpec( {
                 Queen(position=Position(row=7, col=2), boardRange=1..8),
                 Queen(position=Position(row=8, col=4), boardRange=1..8))
         }
+        "max queens added to a board of size 3 is 2" {
+            problem(1..3) shouldBe 2
+        }
+        "max queens added to a board of size 5 is 2" {
+            problem(1..5) shouldBe 5
+        }
+        "max queens added to a board of size 8 is 8" {
+            problem(1..8) shouldBe 8
+        }
+        "max queens added to a board of size 10 is 10" {
+            problem(1..10) shouldBe 10
+        }
+
     }
 
 })
