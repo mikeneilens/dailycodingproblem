@@ -36,7 +36,10 @@ data class Cell(val row:Int, val col:Int) {
     }
 }
 
-fun Set<Cell>.deadCells() = flatMap { it.surroundingCells.filter { it !in this } }.toSet()
+fun Set<Cell>.deadCells() = flatMap { cell -> cell.surroundingCells.filter { it !in this } }.toSet()
 
-fun  Set<Cell>.asString() = (minOf{it.row}..maxOf{it.row}).map{
-    row -> (minOf{it.col}..maxOf{it.col}).map{ col -> if(Cell(row, col) in this) '*' else '.'}.joinToString("") + "\n"}.joinToString("")
+fun  Set<Cell>.asString() = (rangeOf(Cell::row)).joinToString("") { row ->
+    (rangeOf(Cell::col)).map { col -> if (Cell(row, col) in this) '*' else '.' }.joinToString("") + "\n"
+}
+
+fun <U>Iterable<U>.rangeOf(selector:(U)->Int) = minOf{selector(it)}..maxOf{selector(it)}
