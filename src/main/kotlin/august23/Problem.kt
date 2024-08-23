@@ -23,6 +23,7 @@ data class BoardStatus(val boardPositions:Set<Position>, var bestFound:List<Quee
     fun solutionFound() = bestFound.size == bestPossible
 }
 
+//does a depth first search optimised so that it doesn't keep looking for an answer when number of queens on the board is the same as the board size
 fun addQueen(board:List<Queen>, boardStatus:BoardStatus, boardRange:IntRange ):List<List<Queen>> {
     val possiblePositions = if (!boardStatus.solutionFound()) possiblePositions(board, boardStatus.boardPositions) else listOf()
     if (possiblePositions.isEmpty()) {
