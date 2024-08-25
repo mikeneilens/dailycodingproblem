@@ -19,3 +19,12 @@ data class Status(val ones:Int = 0, val twos:Int = 0) {
 
 fun problem(numbers: List<Int>):Int = numbers.fold(Status(), Status::updateForNumber  ).ones
 
+//Solution that doesn't run in O(1) space that uses the same principle but uses sets instead of bitwise logic
+data class StatusSimple(val ones:Set<Int> = emptySet(), val twos:Set<Int> = emptySet()) {
+    fun updateForNumber(num:Int):StatusSimple =
+        if (num in ones) StatusSimple(ones - num, twos + num)
+        else if (num in twos) StatusSimple(ones , twos -num)
+        else StatusSimple(ones + num, twos)
+}
+
+fun problemSimple(numbers: List<Int>):Int = numbers.fold(StatusSimple(), StatusSimple::updateForNumber  ).ones.first()
