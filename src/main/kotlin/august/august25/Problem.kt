@@ -1,4 +1,4 @@
-package august25
+package august.august25
 
 //Given an array of integers where every integer occurs three times except for one integer,
 // which only occurs once, find and return the non-duplicated integer.
@@ -9,7 +9,7 @@ package august25
 
 
 data class Status(val ones:Int = 0, val twos:Int = 0) {
-    fun updateForNumber(num:Int):Status {
+    fun updateForNumber(num:Int): Status {
         val updatedOnes = ones xor num
         val updatedTwos = twos or (ones and num)
         val not_threes = (updatedOnes and updatedTwos).inv()
@@ -21,7 +21,7 @@ fun problem(numbers: List<Int>):Int = numbers.fold(Status(), Status::updateForNu
 
 //Solution that doesn't run in O(1) space that uses the same principle but uses sets instead of bitwise logic
 data class StatusSimple(val ones:Set<Int> = emptySet(), val twos:Set<Int> = emptySet()) {
-    fun updateForNumber(num:Int):StatusSimple =
+    fun updateForNumber(num:Int): StatusSimple =
         if (num in ones) StatusSimple(ones - num, twos + num)
         else if (num in twos) StatusSimple(ones , twos -num)
         else StatusSimple(ones + num, twos)

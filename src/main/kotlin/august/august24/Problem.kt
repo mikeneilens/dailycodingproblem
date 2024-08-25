@@ -1,4 +1,4 @@
-package august24
+package august.august24
 
 //Conway's Game of Life takes place on an infinite two-dimensional board of square cells.
 //Each cell is either dead or alive, and at each tick, the following rules apply:
@@ -28,10 +28,10 @@ data class Cell(val row:Int, val col:Int) {
     val surroundingCells by lazy { (-1..1).flatMap { r -> (-1..1).map { c -> Cell(row + r, col + c) } }.filter { it != this }.toSet() }
     fun neighboursOf(otherCells:Set<Cell>) = surroundingCells intersect otherCells
 
-    fun liveCellLivesOrNull(otherCells: Set<Cell>):Cell? {
+    fun liveCellLivesOrNull(otherCells: Set<Cell>): Cell? {
         return if (neighboursOf(otherCells).size in 2..3) this else null
     }
-    fun deadCellLivesOrNull(otherCells: Set<Cell>):Cell? {
+    fun deadCellLivesOrNull(otherCells: Set<Cell>): Cell? {
         return if (neighboursOf(otherCells).size == 3) this else null
     }
 }
