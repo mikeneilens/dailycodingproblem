@@ -10,8 +10,8 @@ package august25
 
 data class Status(val ones:Int = 0, val twos:Int = 0) {
     fun updateForNumber(num:Int):Status {
-        val updatedTwos = twos or (ones and num)
         val updatedOnes = ones xor num
+        val updatedTwos = twos or (ones and num)
         val not_threes = (updatedOnes and updatedTwos).inv()
         return Status(updatedOnes and not_threes, updatedTwos and not_threes )
     }
