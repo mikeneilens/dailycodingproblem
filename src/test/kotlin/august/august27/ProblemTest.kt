@@ -1,4 +1,4 @@
-package august27
+package august.august27
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

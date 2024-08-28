@@ -1,4 +1,4 @@
-package august26
+package august.august26
 
 //Given an unordered list of flights taken by someone, each represented as (origin, destination) pairs, and a starting
 // airport, compute the person's itinerary. If no such itinerary exists, return null. If there are multiple possible
@@ -24,7 +24,7 @@ fun problem(flights:List<Flight>, start:String) =
 fun findFlight(possibleFlights:List<Flight>, flightsTaken:List<Flight>, currentLocation:String):List<List<Flight>> =
     if (flightsTaken.size == possibleFlights.size) listOf(flightsTaken)
     else possibleFlights.possibleNextFlights(flightsTaken, currentLocation)
-        .flatMap { flight -> findFlight(possibleFlights,flightsTaken + flight, flight.to)}
+        .flatMap { flight -> findFlight(possibleFlights,flightsTaken + flight, flight.to) }
 
 fun List<Flight>.possibleNextFlights(flightsTaken:List<Flight>, currentLocation:String) =
     filter{flight -> flight.from == currentLocation && flight !in flightsTaken }
