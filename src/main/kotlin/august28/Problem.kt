@@ -10,7 +10,7 @@ package august28
 
 data class StackItem<E>(var previousItem:StackItem<E>?, val value:E) where E:Comparable<E> {
 
-    fun max():E = previousItem?.max()?.let{maxChild -> if (value > maxChild) value else maxChild} ?: value
+    val max: E = previousItem?.max?.let { maxChild -> if (value > maxChild) value else maxChild } ?: value
 
 }
 
@@ -25,7 +25,7 @@ data class Stack<E>(var topItem:StackItem<E>? = null) where E:Comparable<E> {
         return poppedItem?.apply { previousItem = null}?.value  //update previous item to null to free up memory
     }
 
-    fun max() = topItem?.max()
+    fun max() = topItem?.max
 
     fun value():E? = topItem?.value
 }
