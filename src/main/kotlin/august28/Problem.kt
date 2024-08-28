@@ -22,7 +22,7 @@ data class Stack<E>(var topItem:StackItem<E>? = null) where E:Comparable<E> {
     fun pop():E? {
         val poppedItem = topItem
         topItem = poppedItem?.previousItem
-        return poppedItem?.apply { previousItem = null}?.value
+        return poppedItem?.apply { previousItem = null}?.value  //update previous item to null to free up memory
     }
 
     fun max() = topItem?.max()
