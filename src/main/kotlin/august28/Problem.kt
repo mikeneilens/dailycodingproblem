@@ -10,7 +10,7 @@ package august28
 
 data class StackItem<E>(var previousItem:StackItem<E>?, val value:E) where E:Comparable<E> {
 
-    val max: E = previousItem?.max?.let { maxChild -> if (value > maxChild) value else maxChild } ?: value
+    val max: E = previousItem?.let { previous -> if (value > previous.max) value else previous.max } ?: value
 
 }
 
