@@ -29,8 +29,8 @@ fun buildNode(preOrder:List<Char>, inOrder:List<Char>):Node? {
 }
 
 fun getLeftOrRight(preOrder: List<Char>, inOrder: List<Char>, value:Char, filterInOrder:(List<Char>, Char)->List<Char>):Pair<List<Char>,List<Char>> {
-    val leftInOrder = filterInOrder(inOrder, value)
-    return Pair(leftInOrder,  filterPreOrder(preOrder, leftInOrder) )
+    val filteredInOrder = filterInOrder(inOrder, value)
+    return Pair(filteredInOrder,  filterPreOrder(preOrder, filteredInOrder) )
 }
 
 fun leftInOrder(inOrder: List<Char>, value:Char) = if (inOrder.indexOf(value) >= 0) inOrder.subList(0 , inOrder.indexOf(value)) else listOf()
