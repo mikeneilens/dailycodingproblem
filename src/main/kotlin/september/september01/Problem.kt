@@ -23,11 +23,14 @@ data class Node(val value:Char, val left:Node? = null, val right:Node? = null )
 fun buildNode(preOrder:List<Char>, inOrder:List<Char>):Node? {
     if (preOrder.isEmpty() ) return null
     val value = preOrder.first()
-    val leftInOrder = leftInOrder(inOrder, value)
-    val leftPreOrder = filterPreOrder(preOrder, leftInOrder)
-    val rightInOrder =  rightInOrder(inOrder, value)
-    val rightPreOrder = filterPreOrder(preOrder, rightInOrder)
+    val (leftInOrder, leftPreOrder) = getLeftOrRight(preOrder, inOrder, value, ::leftInOrder)
+    val (rightInOrder, rightPreOrder) = getLeftOrRight(preOrder, inOrder, value, ::rightInOrder)
     return Node(value, buildNode(leftPreOrder, leftInOrder), buildNode(rightPreOrder, rightInOrder) )
+}
+
+fun getLeftOrRight(preOrder: List<Char>, inOrder: List<Char>, value:Char, filterInOrder:(List<Char>, Char)->List<Char>):Pair<List<Char>,List<Char>> {
+    val leftInOrder = filterInOrder(inOrder, value)
+    return Pair(leftInOrder,  filterPreOrder(preOrder, leftInOrder) )
 }
 
 fun leftInOrder(inOrder: List<Char>, value:Char) = if (inOrder.indexOf(value) >= 0) inOrder.subList(0 , inOrder.indexOf(value)) else listOf()
