@@ -1,15 +1,47 @@
 package august.august22
 
-//The power set of a set is the set of all its subsets. Write a function that, given a set, generates its power set.
-//
-//For example, given the set {1, 2, 3}, it should return {{}, {1}, {2}, {3}, {1, 2}, {1, 3}, {2, 3}, {1, 2, 3}}.
-//
-//You may also use a list or array to represent a set.
+data class Position(val row:Int, val col:Int)
 
-fun <E>Set<E>.powerSet(output:Set<Set<E>> = setOf(setOf())):Set<Set<E>> =
-    if (isEmpty())
-        output
-    else
-        drop(1).toSet().powerSet( output + output.map{ set -> set + first() })
+data class Queen(val position: Position, val boardRange:IntRange) {
+    val horizontalSquares get() = boardRange.map { Position(position.row, it) }
+    val verticalSquares get() = boardRange.map { Position(it, position.col) }
+    val rightDiagnal get() = boardRange.flatMap{ listOf(
+        Position(position.row + it , position.col + it),
+        Position(position.row - it , position.col - it)
+    ) }
+        .filter{it.col in boardRange && it.row in boardRange}
+    val leftDiagnal get() = boardRange.flatMap{ listOf(
+        Position(position.row - it , position.col + it),
+        Position(position.row + it , position.col - it)
+    ) }
+        .filter{it.col in boardRange && it.row in boardRange}
+    val occupiedSquares = (horizontalSquares + verticalSquares + rightDiagnal + leftDiagnal).toSet()
+}
 
+fun problem(boardRange:IntRange):Int {
+    val boardPositions:Set<Position> = boardRange.flatMap { row -> boardRange.map{ col -> Position(row, col) } }.toSet()
+    val queen = Queen(Position(1,1), boardRange)
+    val allResults = addQueen(listOf(queen), BoardStatus(boardPositions), boardRange)
+    return allResults.maxOf { it.size }
+}
 
+data class BoardStatus(val boardPositions:Set<Position>, var bestFound:List<Queen> = listOf(), val bestPossible:Int = boardPositions.distinctBy {it.row}.size) {
+    fun solutionFound() = bestFound.size == bestPossible
+}
+
+//does a depth first search optimised so that it doesn't keep looking for an answer when number of queens on the board is the same as the board size
+fun addQueen(board:List<Queen>, boardStatus: BoardStatus, boardRange:IntRange ):List<List<Queen>> {
+    val possiblePositions = if (!boardStatus.solutionFound()) possiblePositions(board, boardStatus.boardPositions) else listOf()
+    if (possiblePositions.isEmpty()) {
+        if (board.size > boardStatus.bestFound.size) boardStatus.bestFound = board
+        return listOf(board)
+    }
+    else return possiblePositions.flatMap{position -> addQueen(board + Queen(position, boardRange), boardStatus, boardRange) }
+}
+
+fun possiblePositions(board:List<Queen>, boardPositions:Set<Position>):Set<Position> {
+    val occupiedSquares:Set<Position> =  board.occupiedSquares()
+    return boardPositions - occupiedSquares
+}
+
+fun List<Queen>.occupiedSquares() = fold(setOf<Position>()){ result, queen -> result + queen.occupiedSquares}

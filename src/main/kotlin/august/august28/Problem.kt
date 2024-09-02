@@ -1,4 +1,4 @@
-package august29
+package august.august28
 
 
 //We can determine how "out of order" an array A is by counting the number of inversions it has.
@@ -15,7 +15,7 @@ package august29
 
 data class Result(var value:Int = 0)
 
-fun mergeSort(slice: List<Int>, result:Result = Result()): List<Int> {
+fun mergeSort(slice: List<Int>, result: Result = Result()): List<Int> {
     // Slice of 1 element is always sorted
     if (slice.size == 1) return slice
 
@@ -28,7 +28,7 @@ fun mergeSort(slice: List<Int>, result:Result = Result()): List<Int> {
     return merge(left, right, result)
 }
 
-fun merge(left: List<Int>, right: List<Int>, result:Result): List<Int> {
+fun merge(left: List<Int>, right: List<Int>, result: Result): List<Int> {
     val merged: MutableList<Int> = mutableListOf()
 
     var i = 0

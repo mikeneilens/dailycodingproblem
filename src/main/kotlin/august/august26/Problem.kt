@@ -1,34 +1,34 @@
 package august.august26
 
-//Given an unordered list of flights taken by someone, each represented as (origin, destination) pairs, and a starting
-// airport, compute the person's itinerary. If no such itinerary exists, return null. If there are multiple possible
-// itineraries, return the lexicographically smallest one. All flights must be used in the itinerary.
+//Given a list of integers S and a target number k, write a function that returns a subset of S that adds up to k. If such a subset cannot be made, then return null.
 //
-//For example, given the list of flights [('SFO', 'HKO'), ('YYZ', 'SFO'), ('YUL', 'YYZ'), ('HKO', 'ORD')]
-// and starting airport 'YUL', you should return the list ['YUL', 'YYZ', 'SFO', 'HKO', 'ORD'].
+//Integers can appear more than once in the list. You may assume all numbers in the list are positive.
 //
-//Given the list of flights [('SFO', 'COM'), ('COM', 'YYZ')] and starting airport 'COM', you should return null.
-//
-//Given the list of flights [('A', 'B'), ('A', 'C'), ('B', 'C'), ('C', 'A')] and starting airport 'A', you should return
-// the list ['A', 'B', 'C', 'A', 'C'] even though ['A', 'C', 'A', 'B', 'C'] is also a valid itinerary.
-// However, the first one is lexicographically smaller.
+//For example, given S = [12, 1, 61, 5, 9, 2] and k = 24, return [12, 9, 2, 1] since it sums up to 24.
 
-data class Flight(val from:String, val to:String)
 
-fun problem(flights:List<Flight>, start:String) =
-    findFlight(flights, listOf(), start)
-        .map(List<Flight>::toLocations)
-        .sorted().firstOrNull()
+data class Status(val target:Int, var result:List<Int> = listOf())
 
-//depth first search
-fun findFlight(possibleFlights:List<Flight>, flightsTaken:List<Flight>, currentLocation:String):List<List<Flight>> =
-    if (flightsTaken.size == possibleFlights.size) listOf(flightsTaken)
-    else possibleFlights.possibleNextFlights(flightsTaken, currentLocation)
-        .flatMap { flight -> findFlight(possibleFlights,flightsTaken + flight, flight.to) }
+//this could be optimised to avoid retrying the same numbers, e.g. if the answer doesn't contain 12, skip all 12s in the list
+fun problem(numbers: List<Int>, target: Int):List<Int>? {
+    if (numbers.isEmpty()) return null
+    val result = findTarget(numbers, Status(target = target))
+    return result.ifEmpty { problem(numbers.drop(1), target) }
+}
 
-fun List<Flight>.possibleNextFlights(flightsTaken:List<Flight>, currentLocation:String) =
-    filter{flight -> flight.from == currentLocation && flight !in flightsTaken }
+//Depth first search.
+fun findTarget(numbers:List<Int>, status: Status, result:List<Int> = listOf(), sum:Int = 0):List<Int> =
+    if (sum ==  status.target) {
+        status.result = result
+        result
+    } else numbers.filter{number -> sum + number <= status.target }
+        .flatMap{number ->
+            if (status.result.isEmpty()) findTarget(numbers.removeFirst(number), status, result + number, sum + number)
+            else listOf()
+        }
 
-fun List<Flight>.toLocations() =  if(isNotEmpty()) map{it.from} + last().to else listOf()
+fun List<Int>.removeFirst(n:Int):List<Int> {
+    val index:Int = this.indexOfFirst { it == n }
+    return subList(0, index) + subList(index + 1, size)
+}
 
-fun List<List<String>>.sorted() = sortedBy { it.joinToString("")}

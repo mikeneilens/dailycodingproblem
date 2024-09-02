@@ -1,30 +1,34 @@
 package august.august25
 
-//Given an array of integers where every integer occurs three times except for one integer,
-// which only occurs once, find and return the non-duplicated integer.
+//Given an unordered list of flights taken by someone, each represented as (origin, destination) pairs, and a starting
+// airport, compute the person's itinerary. If no such itinerary exists, return null. If there are multiple possible
+// itineraries, return the lexicographically smallest one. All flights must be used in the itinerary.
 //
-//For example, given [6, 1, 3, 3, 3, 6, 6], return 1. Given [13, 19, 13, 13], return 19.
+//For example, given the list of flights [('SFO', 'HKO'), ('YYZ', 'SFO'), ('YUL', 'YYZ'), ('HKO', 'ORD')]
+// and starting airport 'YUL', you should return the list ['YUL', 'YYZ', 'SFO', 'HKO', 'ORD'].
 //
-//Do this in O(N) time and O(1) space.
+//Given the list of flights [('SFO', 'COM'), ('COM', 'YYZ')] and starting airport 'COM', you should return null.
+//
+//Given the list of flights [('A', 'B'), ('A', 'C'), ('B', 'C'), ('C', 'A')] and starting airport 'A', you should return
+// the list ['A', 'B', 'C', 'A', 'C'] even though ['A', 'C', 'A', 'B', 'C'] is also a valid itinerary.
+// However, the first one is lexicographically smaller.
 
+data class Flight(val from:String, val to:String)
 
-data class Status(val ones:Int = 0, val twos:Int = 0) {
-    fun updateForNumber(num:Int): Status {
-        val updatedOnes = ones xor num
-        val updatedTwos = twos or (ones and num)
-        val not_threes = (updatedOnes and updatedTwos).inv()
-        return Status(updatedOnes and not_threes, updatedTwos and not_threes )
-    }
-}
+fun problem(flights:List<Flight>, start:String) =
+    findFlight(flights, listOf(), start)
+        .map(List<Flight>::toLocations)
+        .sorted().firstOrNull()
 
-fun problem(numbers: List<Int>):Int = numbers.fold(Status(), Status::updateForNumber  ).ones
+//depth first search
+fun findFlight(possibleFlights:List<Flight>, flightsTaken:List<Flight>, currentLocation:String):List<List<Flight>> =
+    if (flightsTaken.size == possibleFlights.size) listOf(flightsTaken)
+    else possibleFlights.possibleNextFlights(flightsTaken, currentLocation)
+        .flatMap { flight -> findFlight(possibleFlights,flightsTaken + flight, flight.to) }
 
-//Solution that doesn't run in O(1) space that uses the same principle but uses sets instead of bitwise logic
-data class StatusSimple(val ones:Set<Int> = emptySet(), val twos:Set<Int> = emptySet()) {
-    fun updateForNumber(num:Int): StatusSimple =
-        if (num in ones) StatusSimple(ones - num, twos + num)
-        else if (num in twos) StatusSimple(ones , twos -num)
-        else StatusSimple(ones + num, twos)
-}
+fun List<Flight>.possibleNextFlights(flightsTaken:List<Flight>, currentLocation:String) =
+    filter{flight -> flight.from == currentLocation && flight !in flightsTaken }
 
-fun problemSimple(numbers: List<Int>):Int = numbers.fold(StatusSimple(), StatusSimple::updateForNumber  ).ones.first()
+fun List<Flight>.toLocations() =  if(isNotEmpty()) map{it.from} + last().to else listOf()
+
+fun List<List<String>>.sorted() = sortedBy { it.joinToString("")}

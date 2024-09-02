@@ -4,23 +4,48 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class ProblemTest: StringSpec( {
-    "with [1,2,3,4,3] remove 3 from the list" {
-        listOf(1,2,3,4,3).removeFirst(3) shouldBe listOf(1,2,4,3)
+    "pushing 1 to a stack makes 1 the top of the stack" {
+        val stack = Stack<Int>()
+        stack.push(1).value() shouldBe 1
     }
-    "with [1,2,4,6] and target 7 result is [1,2,4]" {
-        findTarget(listOf(1,2,4,6), Status(target = 7)) shouldBe listOf(1,2,4)
+    "pushing 1 and 2 to a stack makes 2 the top of the stack" {
+        val stack = Stack<Int>()
+        stack.push(1).push(2).value() shouldBe 2
     }
-    "with [1,2,4,6] and target 14 result is []" {
-        findTarget(listOf(1,2,4,6), Status(target = 14)) shouldBe emptyList()
+    "pushing 1 and 2 to a stack and popping once returns 2 and makes 1 the top of the stack" {
+        val stack = Stack<Int>()
+        stack.push(1).push(2).pop() shouldBe 2
+        stack.value() shouldBe 1
     }
-    "with [2,4,6] and target 8 result is [2,6]" {
-        findTarget(listOf(2,4,6), Status(target = 8)) shouldBe listOf(2,6)
+    "pushing 1 and 2 to a stack and popping twice returns 1 and makes null the top of the stack" {
+        val stack = Stack<Int>()
+        stack.push(1).push(2)
+        stack.pop()
+        stack.pop() shouldBe 1
+        stack.value() shouldBe null
     }
-    "with [1,2,4,6] and target 8 result is [2,6]" {
-        problem(listOf(1,2,4,6), target = 8) shouldBe listOf(2,6)
+    "pushing 1 and 2 to a stack and popping three times returns null and makes null the top of the stack" {
+        val stack = Stack<Int>()
+        stack.push(1).push(2)
+        stack.pop()
+        stack.pop()
+        stack.pop() shouldBe null
+        stack.value() shouldBe null
     }
-    "with [12, 1, 61, 5, 9, 2] and target 24 result is [12, 9, 2, 1]" {
-        problem(listOf(12, 1, 61, 5, 9, 2).sortedDescending(), 24) shouldBe listOf(12,9,2,1)
+    "an empty stack gives a max of null " {
+        val stack = Stack<Int>()
+        stack?.max() shouldBe null
+    }
+    "pushing 1 onto a stack gives a max of 1 " {
+        val stack = Stack<Int>().push(1)
+        stack?.max() shouldBe 1
+    }
+    "pushing 1,2 onto a stack gives a max of 2 " {
+        val stack = Stack<Int>().push(1).push(2)
+        stack?.max() shouldBe 2
+    }
+    "pushing 1,2,-1 onto a stack gives a max of 2 " {
+        val stack = Stack<Int>().push(1).push(2).push(-1)
+        stack?.max() shouldBe 2
     }
 })
-

@@ -1,45 +1,30 @@
 package august.august24
 
-//Conway's Game of Life takes place on an infinite two-dimensional board of square cells.
-//Each cell is either dead or alive, and at each tick, the following rules apply:
+//Given an array of integers where every integer occurs three times except for one integer,
+// which only occurs once, find and return the non-duplicated integer.
 //
-//Any live cell with less than two live neighbours dies.
-//Any live cell with two or three live neighbours remains living.
-//Any live cell with more than three live neighbours dies.
-//Any dead cell with exactly three live neighbours becomes a live cell.
-//A cell neighbours another cell if it is horizontally, vertically, or diagonally adjacent.
+//For example, given [6, 1, 3, 3, 3, 6, 6], return 1. Given [13, 19, 13, 13], return 19.
 //
-//Implement Conway's Game of Life. It should be able to be initialized with a starting list of live cell coordinates
-// and the number of steps it should run for. Once initialized, it should print out the board state at each step.
-//Since it's an infinite board, print out only the relevant coordinates, i.e. from the top-leftmost live cell to bottom-rightmost live cell.
-//
-//You can represent a live cell with an asterisk (*) and a dead cell with a dot (.).
+//Do this in O(N) time and O(1) space.
 
-fun problem(cells:Set<Cell>, moves:Int):Set<Cell> {
-    if (moves == 0) return cells else {
-        val newSet = cells.mapNotNull { cell -> cell.liveCellLivesOrNull(cells)}.toSet()  +
-                cells.deadCells().mapNotNull { cell -> cell.deadCellLivesOrNull(cells) }.toSet()
-        println(newSet.asString())
-        return problem(newSet, moves - 1)
+
+data class Status(val ones:Int = 0, val twos:Int = 0) {
+    fun updateForNumber(num:Int): Status {
+        val updatedOnes = ones xor num
+        val updatedTwos = twos or (ones and num)
+        val not_threes = (updatedOnes and updatedTwos).inv()
+        return Status(updatedOnes and not_threes, updatedTwos and not_threes )
     }
 }
 
-data class Cell(val row:Int, val col:Int) {
-    val surroundingCells by lazy { (-1..1).flatMap { r -> (-1..1).map { c -> Cell(row + r, col + c) } }.filter { it != this }.toSet() }
-    fun neighboursOf(otherCells:Set<Cell>) = surroundingCells intersect otherCells
+fun problem(numbers: List<Int>):Int = numbers.fold(Status(), Status::updateForNumber  ).ones
 
-    fun liveCellLivesOrNull(otherCells: Set<Cell>): Cell? {
-        return if (neighboursOf(otherCells).size in 2..3) this else null
-    }
-    fun deadCellLivesOrNull(otherCells: Set<Cell>): Cell? {
-        return if (neighboursOf(otherCells).size == 3) this else null
-    }
+//Solution that doesn't run in O(1) space that uses the same principle but uses sets instead of bitwise logic
+data class StatusSimple(val ones:Set<Int> = emptySet(), val twos:Set<Int> = emptySet()) {
+    fun updateForNumber(num:Int): StatusSimple =
+        if (num in ones) StatusSimple(ones - num, twos + num)
+        else if (num in twos) StatusSimple(ones , twos -num)
+        else StatusSimple(ones + num, twos)
 }
 
-fun Set<Cell>.deadCells() = flatMap { cell -> cell.surroundingCells.filter { it !in this } }.toSet()
-
-fun  Set<Cell>.asString() = (rangeOf(Cell::row)).joinToString("") { row ->
-    (rangeOf(Cell::col)).map { col -> if (Cell(row, col) in this) '*' else '.' }.joinToString("") + "\n"
-}
-
-fun <U>Iterable<U>.rangeOf(selector:(U)->Int) = minOf{selector(it)}..maxOf{selector(it)}
+fun problemSimple(numbers: List<Int>):Int = numbers.fold(StatusSimple(), StatusSimple::updateForNumber  ).ones.first()

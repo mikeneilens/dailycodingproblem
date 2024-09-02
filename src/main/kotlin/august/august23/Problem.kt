@@ -1,47 +1,45 @@
 package august.august23
 
-data class Position(val row:Int, val col:Int)
+//Conway's Game of Life takes place on an infinite two-dimensional board of square cells.
+//Each cell is either dead or alive, and at each tick, the following rules apply:
+//
+//Any live cell with less than two live neighbours dies.
+//Any live cell with two or three live neighbours remains living.
+//Any live cell with more than three live neighbours dies.
+//Any dead cell with exactly three live neighbours becomes a live cell.
+//A cell neighbours another cell if it is horizontally, vertically, or diagonally adjacent.
+//
+//Implement Conway's Game of Life. It should be able to be initialized with a starting list of live cell coordinates
+// and the number of steps it should run for. Once initialized, it should print out the board state at each step.
+//Since it's an infinite board, print out only the relevant coordinates, i.e. from the top-leftmost live cell to bottom-rightmost live cell.
+//
+//You can represent a live cell with an asterisk (*) and a dead cell with a dot (.).
 
-data class Queen(val position: Position, val boardRange:IntRange) {
-    val horizontalSquares get() = boardRange.map { Position(position.row, it) }
-    val verticalSquares get() = boardRange.map { Position(it, position.col) }
-    val rightDiagnal get() = boardRange.flatMap{ listOf(
-        Position(position.row + it , position.col + it),
-        Position(position.row - it , position.col - it)
-    ) }
-        .filter{it.col in boardRange && it.row in boardRange}
-    val leftDiagnal get() = boardRange.flatMap{ listOf(
-        Position(position.row - it , position.col + it),
-        Position(position.row + it , position.col - it)
-    ) }
-        .filter{it.col in boardRange && it.row in boardRange}
-    val occupiedSquares = (horizontalSquares + verticalSquares + rightDiagnal + leftDiagnal).toSet()
-}
-
-fun problem(boardRange:IntRange):Int {
-    val boardPositions:Set<Position> = boardRange.flatMap { row -> boardRange.map{ col -> Position(row, col) } }.toSet()
-    val queen = Queen(Position(1,1), boardRange)
-    val allResults = addQueen(listOf(queen), BoardStatus(boardPositions), boardRange)
-    return allResults.maxOf { it.size }
-}
-
-data class BoardStatus(val boardPositions:Set<Position>, var bestFound:List<Queen> = listOf(), val bestPossible:Int = boardPositions.distinctBy {it.row}.size) {
-    fun solutionFound() = bestFound.size == bestPossible
-}
-
-//does a depth first search optimised so that it doesn't keep looking for an answer when number of queens on the board is the same as the board size
-fun addQueen(board:List<Queen>, boardStatus: BoardStatus, boardRange:IntRange ):List<List<Queen>> {
-    val possiblePositions = if (!boardStatus.solutionFound()) possiblePositions(board, boardStatus.boardPositions) else listOf()
-    if (possiblePositions.isEmpty()) {
-        if (board.size > boardStatus.bestFound.size) boardStatus.bestFound = board
-        return listOf(board)
+fun problem(cells:Set<Cell>, moves:Int):Set<Cell> {
+    if (moves == 0) return cells else {
+        val newSet = cells.mapNotNull { cell -> cell.liveCellLivesOrNull(cells)}.toSet()  +
+                cells.deadCells().mapNotNull { cell -> cell.deadCellLivesOrNull(cells) }.toSet()
+        println(newSet.asString())
+        return problem(newSet, moves - 1)
     }
-    else return possiblePositions.flatMap{position -> addQueen(board + Queen(position, boardRange), boardStatus, boardRange) }
 }
 
-fun possiblePositions(board:List<Queen>, boardPositions:Set<Position>):Set<Position> {
-    val occupiedSquares:Set<Position> =  board.occupiedSquares()
-    return boardPositions - occupiedSquares
+data class Cell(val row:Int, val col:Int) {
+    val surroundingCells by lazy { (-1..1).flatMap { r -> (-1..1).map { c -> Cell(row + r, col + c) } }.filter { it != this }.toSet() }
+    fun neighboursOf(otherCells:Set<Cell>) = surroundingCells intersect otherCells
+
+    fun liveCellLivesOrNull(otherCells: Set<Cell>): Cell? {
+        return if (neighboursOf(otherCells).size in 2..3) this else null
+    }
+    fun deadCellLivesOrNull(otherCells: Set<Cell>): Cell? {
+        return if (neighboursOf(otherCells).size == 3) this else null
+    }
 }
 
-fun List<Queen>.occupiedSquares() = fold(setOf<Position>()){ result, queen -> result + queen.occupiedSquares}
+fun Set<Cell>.deadCells() = flatMap { cell -> cell.surroundingCells.filter { it !in this } }.toSet()
+
+fun  Set<Cell>.asString() = (rangeOf(Cell::row)).joinToString("") { row ->
+    (rangeOf(Cell::col)).map { col -> if (Cell(row, col) in this) '*' else '.' }.joinToString("") + "\n"
+}
+
+fun <U>Iterable<U>.rangeOf(selector:(U)->Int) = minOf{selector(it)}..maxOf{selector(it)}

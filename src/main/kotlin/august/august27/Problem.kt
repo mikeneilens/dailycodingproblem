@@ -1,34 +1,31 @@
 package august.august27
 
-//Given a list of integers S and a target number k, write a function that returns a subset of S that adds up to k. If such a subset cannot be made, then return null.
+//Implement a stack that has the following methods:
 //
-//Integers can appear more than once in the list. You may assume all numbers in the list are positive.
-//
-//For example, given S = [12, 1, 61, 5, 9, 2] and k = 24, return [12, 9, 2, 1] since it sums up to 24.
+//push(val), which pushes an element onto the stack
+//pop(), which pops off and returns the topmost element of the stack. If there are no elements in the stack, then it should throw an error or return null.
+//max(), which returns the maximum value in the stack currently. If there are no elements in the stack, then it should throw an error or return null.
+//Each method should run in constant time.
 
 
-data class Status(val target:Int, var result:List<Int> = listOf())
+data class StackItem<E>(var previousItem: StackItem<E>?, val value:E) where E:Comparable<E> {
 
-//this could be optimised to avoid retrying the same numbers, e.g. if the answer doesn't contain 12, skip all 12s in the list
-fun problem(numbers: List<Int>, target: Int):List<Int>? {
-    if (numbers.isEmpty()) return null
-    val result = findTarget(numbers, Status(target = target))
-    return result.ifEmpty { problem(numbers.drop(1), target) }
+    val max: E = previousItem?.let { previous -> if (value > previous.max) value else previous.max } ?: value
+
 }
 
-//Depth first search.
-fun findTarget(numbers:List<Int>, status: Status, result:List<Int> = listOf(), sum:Int = 0):List<Int> =
-    if (sum ==  status.target) {
-        status.result = result
-        result
-    } else numbers.filter{number -> sum + number <= status.target }
-        .flatMap{number ->
-            if (status.result.isEmpty()) findTarget(numbers.removeFirst(number), status, result + number, sum + number)
-            else listOf()
-        }
 
-fun List<Int>.removeFirst(n:Int):List<Int> {
-    val index:Int = this.indexOfFirst { it == n }
-    return subList(0, index) + subList(index + 1, size)
+data class Stack<E>(var topItem: StackItem<E>? = null) where E:Comparable<E> {
+
+    fun push(value:E): Stack<E> = apply { topItem = StackItem(topItem, value) }
+
+    fun pop():E? {
+        val poppedItem = topItem
+        topItem = poppedItem?.previousItem
+        return poppedItem?.apply { previousItem = null}?.value  //update previous item to null to free up memory
+    }
+
+    fun max() = topItem?.max
+
+    fun value():E? = topItem?.value
 }
-
