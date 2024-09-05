@@ -11,7 +11,7 @@ package september.september05
 data class Item(var itemkey:String, var next:Item? = null)
 
 fun createItems(n:Int, start:Item = Item("$n"), current:Item = start):Item {
-    return if (n == 1) {
+    return if (n <= 1) {
         current.next = start
         start
     } else {
@@ -37,6 +37,7 @@ data class Cache(val n:Int) {
     fun get(key:String) = cacheMap[key]
 
     init {
+        if (n < 1) throw IllegalArgumentException("cache size should be greater than zero")
         oldestItems = createItems(n)
     }
 }

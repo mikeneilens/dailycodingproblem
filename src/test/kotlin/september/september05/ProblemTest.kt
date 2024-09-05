@@ -1,5 +1,6 @@
 package september.september05
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
@@ -12,6 +13,13 @@ class ProblemTest: StringSpec( {
         items.next?.next?.next?.itemkey shouldBe "2"
         items.next?.next?.next?.next?.itemkey shouldBe "1"
         items.next?.next?.next?.next?.next?.itemkey shouldBe "5"
+    }
+
+    "creating a cache of size 0 throws an illegal argument exception" {
+        val exception = shouldThrow<IllegalArgumentException> {
+            Cache(0)
+        }
+        exception.localizedMessage shouldBe  "cache size should be greater than zero"
     }
     "creating a cache of size 3 creates a cache with oldestItems of size 3" {
         val cache = Cache(3)
