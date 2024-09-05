@@ -31,7 +31,7 @@ data class Cache(val n:Int) {
             cacheMap.remove(oldestItems.itemkey)
             cacheMap[key] = value
             oldestItems.itemkey = key
-            oldestItems = oldestItems?.next ?: Item("")
+            oldestItems = oldestItems?.next ?: oldestItems
         }
     }
     fun get(key:String) = cacheMap[key]
