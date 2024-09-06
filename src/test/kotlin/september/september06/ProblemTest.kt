@@ -35,7 +35,7 @@ class ProblemTest: WordSpec( {
             stack.pop()
             stack.pop() shouldBe 1
         }
-        "pushing 1,2,3 to a stack and then transfering it results in a stack of 3,2,1" {
+        "pushing 1,2,3 to a stack and then transferring it results in a stack of 3,2,1" {
             val stack = Stack<Int>().push(1).push(2).push(3)
             val otherStack = Stack<Int>()
             stack.transferTo(otherStack)
@@ -56,13 +56,13 @@ class ProblemTest: WordSpec( {
             val queue = Queue<Int>().enqueue(1).enqueue(2)
             queue.topOfQueueValue() shouldBe 2
         }
-        "enqueuing 1,2 to an empty queue and then dequeuing should return 1 and back of queue should contain 2" {
+        "enqueuing 1,2 to an empty queue and then de-queuing should return 1 and back of queue should contain 2" {
             val queue = Queue<Int>().enqueue(1).enqueue(2)
             queue.dequeue() shouldBe 1
             queue.backOfQueueValue() shouldBe 2
             queue.topOfQueue.isEmpty() shouldBe true
         }
-        "enqueuing 1,2 to an empty queue and then dequeuing and then enqueuing 3 should result in top of queue of 3" {
+        "enqueuing 1,2 to an empty queue and then de-queuing and then enqueuing 3 should result in top of queue of 3" {
             val queue = Queue<Int>().enqueue(1).enqueue(2)
             queue.dequeue()
             queue.enqueue(3)
