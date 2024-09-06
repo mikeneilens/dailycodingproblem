@@ -6,11 +6,10 @@ package september.september06
 data class StackItem<E>(val value: E, var previous: StackItem<E>?)
 
 data class Stack<E>(var topStackItem: StackItem<E>? = null) {
-    fun push(value :E) :Stack<E>{
+    fun push(value :E) = apply{
         topStackItem = StackItem(value, topStackItem)
-        return this
     }
-    fun pop():E? = topStackItem?.let {
+    fun pop() = topStackItem?.let {
             topStackItem = it.previous
             it.value
         }
