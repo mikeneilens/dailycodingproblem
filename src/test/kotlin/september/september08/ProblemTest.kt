@@ -17,8 +17,12 @@ class ProblemTest:StringSpec( {
         listOf("a,b","c,d").fromCsvToMap() shouldBe mapOf("a" to "b", "c" to "d")
     }
     "create a random shortURL" {
-        val shortURL = UrlShortener(MockDatabase(), randomCharacter = {'A'}).createRandomShortURL()
+        val chars:List<Char> = listOf('A','A','A','A','A','A')
+        var n = 0
+        val randomChar = {chars[n++]}
+        val shortURL = UrlShortener(MockDatabase(), randomCharacter = randomChar).createRandomShortURL()
         shortURL shouldBe "AAAAAA"
+        n shouldBe  6
     }
     "UrlShortener shortens a URL" {
         val mockDatabase = MockDatabase()
