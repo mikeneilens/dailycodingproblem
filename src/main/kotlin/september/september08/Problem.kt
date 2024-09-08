@@ -11,23 +11,19 @@ interface StringDatabase{
     fun write(strings:List<String>)
 }
 
-class UrlShortner(val stringDatabase:StringDatabase, val randomCharacter:()->Char = {validChars.shuffled().first()} ) {
-    val urlMap: URLMap
-
-    init {
-        urlMap = stringDatabase.read().fromCsvToMap()
-    }
-    fun shortern(url:String):String {
+class UrlShortener(private val stringDatabase:StringDatabase, val randomCharacter:()->Char = {validChars.shuffled().first()} ) {
+    val urlMap: URLMap = stringDatabase.read().fromCsvToMap()
+    fun shorten(url:String):String {
         if (url in urlMap.values) return urlMap.toList().first { it.second == url }.first
-        val shortnedURL = createRandomShortURL()
-        persist(url = url, shortnedURL = shortnedURL)
-        return shortnedURL
+        val shortenedURL = createRandomShortURL()
+        persist(url = url, shortenedURL = shortenedURL)
+        return shortenedURL
     }
 
     fun restore(short:String) = urlMap[short]
 
-    fun persist(url:String, shortnedURL:String) {
-        urlMap[shortnedURL] = url
+    private fun persist(url:String, shortenedURL:String) {
+        urlMap[shortenedURL] = url
         stringDatabase.write(urlMap.toCsv())
     }
 

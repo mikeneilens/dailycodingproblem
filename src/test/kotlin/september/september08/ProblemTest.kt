@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 
 class ProblemTest:StringSpec( {
 
-    class MockDatabase(var data:List<String> = listOf<String>()):StringDatabase {
+    class MockDatabase(var data:List<String> = listOf()):StringDatabase {
         override fun read(): List<String> = data
         override fun write(strings: List<String>)  { data = strings }
     }
@@ -17,25 +17,25 @@ class ProblemTest:StringSpec( {
         listOf("a,b","c,d").fromCsvToMap() shouldBe mapOf("a" to "b", "c" to "d")
     }
     "create a random shortURL" {
-        val shortURL = UrlShortner(MockDatabase(), randomCharacter = {'A'}).createRandomShortURL()
+        val shortURL = UrlShortener(MockDatabase(), randomCharacter = {'A'}).createRandomShortURL()
         shortURL shouldBe "AAAAAA"
     }
-    "UrlShortner shortens a URL" {
+    "UrlShortener shortens a URL" {
         val mockDatabase = MockDatabase()
-        val urlShortner = UrlShortner(mockDatabase)
-        val shortnedURL = urlShortner.shortern("url1")
-        urlShortner.urlMap[shortnedURL] shouldBe "url1"
-        mockDatabase.read() shouldBe listOf("$shortnedURL,url1")
+        val urlShortener = UrlShortener(mockDatabase)
+        val shortenedURL = urlShortener.shorten("url1")
+        urlShortener.urlMap[shortenedURL] shouldBe "url1"
+        mockDatabase.read() shouldBe listOf("$shortenedURL,url1")
     }
-    "UrlShortner retrieves a url for a shortened URL" {
-        val urlShortner = UrlShortner(MockDatabase())
-        val shortnedURL = urlShortner.shortern("url1")
-        urlShortner.restore(shortnedURL) shouldBe "url1"
+    "UrlShortener retrieves a url for a shortened URL" {
+        val urlShortener = UrlShortener(MockDatabase())
+        val shortenedURL = urlShortener.shorten("url1")
+        urlShortener.restore(shortenedURL) shouldBe "url1"
     }
-    "UrlShortner shortening the same URL returns the same short url each time" {
-        val urlShortner = UrlShortner(MockDatabase())
-        val shortnedURL = urlShortner.shortern("url1")
-        urlShortner.shortern("url2")
-        urlShortner.shortern("url1") shouldBe shortnedURL
+    "UrlShortener shortening the same URL returns the same short url each time" {
+        val urlShortener = UrlShortener(MockDatabase())
+        val shortenedURL = urlShortener.shorten("url1")
+        urlShortener.shorten("url2")
+        urlShortener.shorten("url1") shouldBe shortenedURL
     }
 })
