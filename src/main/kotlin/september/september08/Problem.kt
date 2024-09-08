@@ -12,7 +12,9 @@ interface StringDatabase{
 }
 
 class UrlShortener(private val stringDatabase:StringDatabase, val randomCharacter:()->Char = {validChars.shuffled().first()} ) {
+
     val urlMap: URLMap = stringDatabase.read().fromCsvToMap()
+
     fun shorten(url:String):String {
         if (url in urlMap.values) return urlMap.toList().first { it.second == url }.first
         val shortenedURL = createRandomShortURL()
