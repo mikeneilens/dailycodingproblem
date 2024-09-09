@@ -63,9 +63,20 @@ class ProblemTest: StringSpec({
             listOf(true, true, false, true),
             listOf(true, false, true, false)
         )
-
         val colours = setOf("red","green","blue")
 
         addColour(0, listOf(),vertexes, colours).first() shouldBe listOf("red", "green", "blue", "green")
     }
+    "if three vertexes from the question and three colours there is a possible combination of colours" {
+        val vertexes = listOf(
+            listOf(false, true, true, true),
+            listOf(true, false, true, false),
+            listOf(true, true, false, true),
+            listOf(true, false, true, false)
+        )
+        val colours = setOf("red","green","blue")
+
+        problem(vertexes, colours) shouldBe listOf("red","green","blue","green")
+    }
+
 })
