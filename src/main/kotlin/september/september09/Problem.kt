@@ -7,9 +7,9 @@ package september.september09
 //Each row and column indicates a vertexNo and TRUE at [row][col] indicates vertex #row is a neighbour of vertex #col
 typealias Vertexes = List<List<Boolean>>
 
-fun problem(vertexes:Vertexes, colours:Set<String>):List<String> {
-    return addColour(vertexes = vertexes, colours = colours ).firstOrNull() ?: listOf()
-}
+fun problem(vertexes:Vertexes, colours:Set<String>) =
+    addColour(vertexes = vertexes, colours = colours ).firstOrNull() ?: listOf()
+
 
 //Does a depth first search, not optimised, so it returns lots of results instead of stopping after the first
 fun addColour(vertexNo:Int = 0, coloursForEachVertex:List<String> = listOf(), vertexes:Vertexes, colours:Set<String>):List<List<String>> =
