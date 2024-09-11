@@ -8,19 +8,12 @@ package september.september11
 //
 //You can assume all the integers in the array are unique.
 
-fun List<Int>.findVal(target:Int, start:Int = 0, end:Int = lastIndex):Int {
-    if (get(start) == target) return start
-    if (get(end) == target) return end
-    if (get(start) < get(mid(start, end))  )
-        if (target in (get(start)..get((mid(start, end)))))
-            return findVal(target, start, mid(start, end))
-        else
-            return findVal(target, mid(start, end) + 1, end)
-    else
-        if (target in get(mid(start, end) + 1)..get(end))
-            return findVal(target, mid(start, end) + 1 , end)
-        else
-            return findVal(target, start, mid(start, end))
+//Use a version of divide and conquer
+fun List<Int>.findVal(target:Int, start:Int = 0, end:Int = lastIndex, mid:Int = start + (end - start)/2 ):Int  = when {
+    (get(start) == target) -> start
+    (get(end) == target) -> end
+    (get(start) < get(mid) && target in (get(start)..get((mid)))  ) -> findVal(target, start, mid)
+    (get(start) < get(mid) && target !in (get(start)..get((mid)))  ) -> findVal(target, mid + 1, end)
+    (get(mid + 1) < get(end) && target in (get(mid + 1)..get((end)))  ) -> findVal(target, mid + 1, end)
+    else -> findVal(target, start, mid)
 }
-
-fun mid(start:Int, end:Int) = start + (end - start)/2
