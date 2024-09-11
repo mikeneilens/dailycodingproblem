@@ -26,4 +26,7 @@ class ProblemTest: StringSpec({
     "for [13, 18, 25, 2, 8, 10] find index of 8" {
         listOf(13, 18, 25, 2, 8, 10).findVal(8) shouldBe 4
     }
+    "for [13, 18, 25, 2, 8, 10] find index of 13" {
+        listOf(13, 18, 25, 2, 8, 10).findVal(17) shouldBe null
+    }
 })
