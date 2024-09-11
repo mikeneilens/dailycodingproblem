@@ -14,10 +14,10 @@ class ProblemTest: StringSpec({
         listOf("abc","ef").lengthOfLastString() shouldBe 2
     }
     "concatonate the last item of an array [] with 'def' gives ['def']" {
-        listOf<String>().concatonateLastWith("def") shouldBe listOf("def")
+        listOf<String>().concatenateLastWith("def") shouldBe listOf("def")
     }
     "concatonate the last item of an array ['abc'] with 'def' gives ['abc def]" {
-        listOf("abc").concatonateLastWith("def") shouldBe listOf("abc def")
+        listOf("abc").concatenateLastWith("def") shouldBe listOf("abc def")
     }
     "with string 'abc def' and k of 7 output is ['abc def']" {
         problem("abc def", 7) shouldBe listOf("abc def")

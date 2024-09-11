@@ -10,14 +10,14 @@ package september.september10
 // ["the quick", "brown fox", "jumps over", "the lazy", "dog"]. No string in the list has a length of more than 10.
 
 fun problem(string:String, k:Int):List<String>? {
-    if (string.isEmpty() || string.split(" ").any{it.length > k}) return null
+    if (string.split(" ").any{it.length !in 1.. k}) return null
     val addWordToOutput = {output:List<String>, word:String -> addWordToOutput(output, word, k)}
     return string.split(" ").fold(emptyList(), addWordToOutput)
 }
 
-fun addWordToOutput(output: List<String>, word: String, k: Int, ) =
-    if (word.length + output.lengthOfLastString() >= k) output + word  else output.concatonateLastWith(word)
+fun addWordToOutput(output: List<String>, word: String, k: Int ) =
+    if (word.length + output.lengthOfLastString() >= k) output + word  else output.concatenateLastWith(word)
 
 fun List<String>.lengthOfLastString() = lastOrNull()?.length ?: 0
 
-fun List<String>.concatonateLastWith(s:String) = if (isEmpty()) listOf(s) else dropLast(1) + (last() + " $s")
+fun List<String>.concatenateLastWith(s:String) = if (isEmpty()) listOf(s) else dropLast(1) + (last() + " $s")
