@@ -12,7 +12,7 @@ package september.september11
 fun List<Int>.findVal(target:Int, start:Int = 0, end:Int = lastIndex, mid:Int = (start + end)/2 ):Int?  = when {
     (get(start) == target) -> start
     (get(end) == target) -> end
-    start == end -> null
+    start == end -> null //solution can't be found
     (get(start) < get(mid) && target in (get(start)..get((mid)))  ) -> findVal(target, start, mid)
     (get(start) < get(mid) && target !in (get(start)..get((mid)))  ) -> findVal(target, mid + 1, end)
     (get(mid + 1) < get(end) && target in (get(mid + 1)..get((end)))  ) -> findVal(target, mid + 1, end)
