@@ -7,26 +7,26 @@ class ProblemTest: StringSpec( {
     "re-order [] should give []" {
         val array = mutableListOf<String>()
         threeWayPartition(array)
-        array shouldBe mutableListOf<String>()
+        array shouldBe mutableListOf()
     }
     "re-order [R] should give [R]" {
-        val array = mutableListOf<String>("R")
+        val array = mutableListOf("R")
         threeWayPartition(array)
-        array shouldBe mutableListOf<String>("R")
+        array shouldBe mutableListOf("R")
     }
     "re-order [G, R] should give [R, G]" {
-        val array = mutableListOf<String>("G","R")
+        val array = mutableListOf("G","R")
         threeWayPartition(array)
-        array shouldBe mutableListOf<String>("R","G")
+        array shouldBe mutableListOf("R","G")
     }
     "re-order [G, B, R] should give [R, G, B]" {
-        val array = mutableListOf<String>("G", "B", "R")
+        val array = mutableListOf("G", "B", "R")
         threeWayPartition(array)
-        array shouldBe mutableListOf<String>("R","G", "B")
+        array shouldBe mutableListOf("R","G", "B")
     }
     "re-order ['G', 'B', 'R', 'R', 'B', 'R', 'G'] should give ['R', 'R', 'R', 'G', 'G', 'B', 'B']" {
-        val array = mutableListOf<String>("G", "B", "R", "R", "B", "R", "G")
+        val array = mutableListOf("G", "B", "R", "R", "B", "R", "G")
         threeWayPartition(array)
-        array shouldBe mutableListOf<String>("R", "R", "R", "G", "G", "B", "B")
+        array shouldBe mutableListOf("R", "R", "R", "G", "G", "B", "B")
     }
 })

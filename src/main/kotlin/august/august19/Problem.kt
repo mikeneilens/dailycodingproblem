@@ -10,13 +10,13 @@ package august.august19
 //This is the Dutch national flag problem
 fun threeWayPartition(array:MutableList<String>) {
     var bottomIndex = 0
-    var topindex = array.lastIndex
+    var topIndex = array.lastIndex
     var index = 0
 
-    while (index <= topindex) {
+    while (index <= topIndex) {
         when (array[index]) {
            "R" -> array.swap(bottomIndex++, index++)
-           "B" -> array.swap(index, topindex--)
+           "B" -> array.swap(index, topIndex--)
             else -> index++
         }
     }
