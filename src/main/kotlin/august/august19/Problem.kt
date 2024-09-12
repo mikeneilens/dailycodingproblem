@@ -1,0 +1,28 @@
+package august.august19
+
+//Given an array of strictly the characters 'R', 'G', and 'B', segregate the values of the array so that all the Rs come first,
+// the Gs come second, and the Bs come last. You can only swap elements of the array.
+//
+//Do this in linear time and in-place.
+//
+//For example, given the array ['G', 'B', 'R', 'R', 'B', 'R', 'G'], it should become ['R', 'R', 'R', 'G', 'G', 'B', 'B'].
+
+//This is the Dutch national flag problem
+fun threeWayPartition(array:MutableList<String>) {
+    var bottomIndex = 0
+    var topindex = array.lastIndex
+    var index = 0
+
+    while (index <= topindex) {
+        when (array[index]) {
+           "R" -> array.swap(bottomIndex++, index++)
+           "B" -> array.swap(index, topindex--)
+            else -> index++
+        }
+    }
+}
+
+fun <E>MutableList<E>.swap(index1:Int, index2:Int, element1:E = get(index1), element2:E = get(index2)) {
+    set(index1, element =  element2)
+    set(index2, element = element1)
+}
