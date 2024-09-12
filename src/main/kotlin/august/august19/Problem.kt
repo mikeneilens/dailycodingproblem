@@ -22,7 +22,6 @@ fun threeWayPartition(array:MutableList<String>) {
     }
 }
 
-fun <E>MutableList<E>.swap(index1:Int, index2:Int, element1:E = get(index1), element2:E = get(index2)) {
-    set(index1, element =  element2)
-    set(index2, element = element1)
+fun <E>MutableList<E>.swap(index1:Int, index2:Int) {
+    this[index1] = this[index2].also{ this[index2] = this[index1] }
 }
