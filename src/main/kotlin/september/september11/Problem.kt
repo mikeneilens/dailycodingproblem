@@ -14,7 +14,7 @@ fun List<Int>.findVal(target:Int, start:Int = 0, end:Int = lastIndex, mid:Int = 
     (get(end) == target) -> end
     start == end -> null //solution can't be found
     (target in (get(start)..get((mid)))  ) -> findVal(target, start, mid)
-    (get(start) < get(mid) && target !in (get(start)..get((mid)))  ) -> findVal(target, mid + 1, end)
     (target in (get(mid + 1)..get((end)))  ) -> findVal(target, mid + 1, end)
+    (get(start) < get(mid)) -> findVal(target, mid + 1, end)
     else -> findVal(target, start, mid)
 }

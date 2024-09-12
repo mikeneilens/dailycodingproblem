@@ -23,6 +23,16 @@ class ProblemTest: StringSpec({
         listOf(8,1,2,3,4,5,6,7).findVal(6) shouldBe 6
         listOf(8,1,2,3,4,5,6,7).findVal(7) shouldBe 7
     }
+    "for [2,3,4,5,6,7,8,1] fund index of each value" {
+        listOf(2,3,4,5,6,7,8,1).findVal(1) shouldBe 7
+        listOf(2,3,4,5,6,7,8,1).findVal(2) shouldBe 0
+        listOf(2,3,4,5,6,7,8,1).findVal(3) shouldBe 1
+        listOf(2,3,4,5,6,7,8,1).findVal(4) shouldBe 2
+        listOf(2,3,4,5,6,7,8,1).findVal(5) shouldBe 3
+        listOf(2,3,4,5,6,7,8,1).findVal(6) shouldBe 4
+        listOf(2,3,4,5,6,7,8,1).findVal(7) shouldBe 5
+        listOf(2,3,4,5,6,7,8,1).findVal(8) shouldBe 6
+    }
     "for [13, 18, 25, 2, 8, 10] find index of 8" {
         listOf(13, 18, 25, 2, 8, 10).findVal(8) shouldBe 4
     }
