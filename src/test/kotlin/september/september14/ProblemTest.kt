@@ -16,7 +16,7 @@ class ProblemTest: StringSpec({
     "power(4,4) return 256" {
         power(4,4) shouldBe 256
     }
-    "power(4, 6) return 4096, memoizing power(4,3)" {
+    "power(4, 6) return 4096, memoize power(4,3)" {
         val memo = newMemo()
         power(4, 6, memo) shouldBe 4096
         memo.get(4,3) shouldBe 64
