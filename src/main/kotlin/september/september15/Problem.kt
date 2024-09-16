@@ -8,14 +8,20 @@ package september.september15
 //Down, then right.
 //Given a 5 by 5 matrix, there are 70 ways to get to the bottom-right.
 
+data class Board(val rows:Int, val cols:Int) {
+    val startPosition = Position(1,1)
+    val endPosition = Position(rows, cols)
+    operator fun contains(position:Position) = position.row in 1..rows && position.col in 1..cols
+}
+
 data class Position(val row:Int, val col:Int) {
-    fun adjacentPositions(rowRange:IntRange, colRange:IntRange) =
-        listOf(Position(row + 1, col), Position(row, col + 1)).filter{it.row in rowRange && it.col in colRange}
+    fun adjacentPositions(board:Board) =
+        listOf(Position(row + 1, col), Position(row, col + 1)).filter{it in board}
 }
 
 //simple depth first search
-fun routes(rowRange:IntRange, colRange:IntRange, route:List<Position> = listOf(Position(1,1))): List<List<Position>> =
-    if (route.last() == Position(rowRange.last, colRange.last)) listOf(route)
-    else route.last().adjacentPositions(rowRange, colRange)
+fun routes(board:Board, route:List<Position> = listOf(board.startPosition)): List<List<Position>> =
+    if (route.last() == board.endPosition) listOf(route)
+    else route.last().adjacentPositions(board)
             .filter {newPosition -> newPosition !in route }
-            .flatMap {newPosition -> routes( rowRange, colRange, route + newPosition) }
+            .flatMap {newPosition -> routes( board, route + newPosition) }
