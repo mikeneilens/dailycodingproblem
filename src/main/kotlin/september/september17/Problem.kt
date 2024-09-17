@@ -19,11 +19,8 @@ data class Position(val row:Int, val col:Int) {
 }
 
 //simple depth first search
-var x = 0
-fun routes(board:Board, route:Set<Position> = setOf(board.startPosition), last:Position = board.startPosition): List<List<Position>> =
-    if (route.size == board.size){
-        println("route found ${++x}")
-        listOf(route.toList())
-    } else route.last().newPositions(board)
+fun routes(board:Board, route:Set<Position> = setOf(board.startPosition)): List<List<Position>> =
+    if (route.size == board.size) listOf(route.toList())
+    else route.last().newPositions(board)
         .filter {newPosition -> newPosition !in route }
-        .flatMap {newPosition -> routes(  board, route + newPosition, newPosition) }
+        .flatMap {newPosition -> routes(  board, route + newPosition) }
