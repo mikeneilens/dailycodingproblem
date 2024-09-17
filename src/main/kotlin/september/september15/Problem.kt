@@ -8,10 +8,10 @@ package september.september15
 //Down, then right.
 //Given a 5 by 5 matrix, there are 70 ways to get to the bottom-right.
 
-data class Matrix(val rows:Int, val cols:Int) {
+data class Matrix(val n:Int, val m:Int) {
     val startPosition = Position(1,1)
-    val endPosition = Position(rows, cols)
-    operator fun contains(position:Position) = position.row in 1..rows && position.col in 1..cols
+    val endPosition = Position(n, m)
+    operator fun contains(position:Position) = position.row in 1..n && position.col in 1..m
 }
 
 data class Position(val row:Int, val col:Int) {
