@@ -14,6 +14,12 @@ class ProblemTest: StringSpec({
             listOf(1, 2)
         ).clockwiseSpiral() shouldBe listOf(1, 2)
     }
+    "A 2 X 1 matrix should return a list containing 2 items" {
+        listOf(
+            listOf(1),
+            listOf(2)
+        ).clockwiseSpiral() shouldBe listOf(1, 2)
+    }
     "A 2 X 2 matrix should return a list containing 4 items" {
         listOf(
             listOf(1, 2),
