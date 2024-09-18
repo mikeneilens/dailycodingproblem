@@ -24,7 +24,7 @@ fun List<List<Int>>.clockwiseSpiral():List<Int> =
     }
 
 fun List<List<Int>>.firstHorizontal() = get(0).subList(0, m)
-fun List<List<Int>>.firstVertical() = subList(1, n - 1 + 1).map{it[m - 1]}
+fun List<List<Int>>.firstVertical() = subList(1, n).map{it[m - 1]}
 fun List<List<Int>>.secondHorizontal() = get(n - 1 ).subList(0 , m  - 1).reversed()
 fun List<List<Int>>.secondVertical() = subList(1, n - 1).map{it[0]}.reversed()
 
