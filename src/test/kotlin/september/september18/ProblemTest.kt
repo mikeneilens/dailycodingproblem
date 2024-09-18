@@ -62,7 +62,7 @@ class ProblemTest: StringSpec({
         ).clockwiseSpiral() shouldBe listOf(1, 2, 4, 6, 5, 3)
     }
 
-    "Removing the border of a 4 X 4 matrix leaves a 2 X  2 matrix" {
+    "Removing the border of a 5 X 5 matrix leaves a 3 X 3 matrix" {
         listOf(
             listOf(1, 2, 3, 4, 5),
             listOf(6, 7, 8, 9, 10),
