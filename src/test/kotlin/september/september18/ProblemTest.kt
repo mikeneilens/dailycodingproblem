@@ -26,33 +26,33 @@ class ProblemTest: StringSpec({
             listOf(3, 4)
         ).clockwiseSpiral() shouldBe listOf(1, 2, 4, 3)
     }
-    "In a 3 X 2 matrix starting at 0,0 the first horizontal row is [1,2]" {
+    "In a 3 X 2 matrix starting at 0,0 the top row is [1,2]" {
         listOf(
             listOf(1, 2),
             listOf(3, 4),
             listOf(5, 6),
-        ).firstHorizontal() shouldBe listOf(1,2)
+        ).topLine() shouldBe listOf(1,2)
     }
-    "In a 3 X 2 matrix starting at 0,0 the first vertical row is [4,6]" {
+    "In a 3 X 2 matrix starting at 0,0 the right column is [4,6]" {
         listOf(
             listOf(1, 2),
             listOf(3, 4),
             listOf(5, 6),
-        ).firstVertical() shouldBe listOf(4,6)
+        ).rightLine() shouldBe listOf(4,6)
     }
-    "In a 3 X 2 matrix starting at 0,0 the second horizontal row is [5]" {
+    "In a 3 X 2 matrix starting at 0,0 the bottom row is [5]" {
         listOf(
             listOf(1, 2),
             listOf(3, 4),
             listOf(5, 6),
-        ).secondHorizontal() shouldBe listOf(5)
+        ).bottomLine() shouldBe listOf(5)
     }
-    "In a 3 X 2 matrix starting at 0,0 the second vertical row is [3]" {
+    "In a 3 X 2 matrix starting at 0,0 the left column is [3]" {
         listOf(
             listOf(1, 2),
             listOf(3, 4),
             listOf(5, 6),
-        ).secondVertical() shouldBe listOf(3)
+        ).leftLine() shouldBe listOf(3)
     }
     "A 3 X 3 matrix should return a list containing 6 items" {
         listOf(

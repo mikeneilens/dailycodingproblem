@@ -16,19 +16,21 @@ fun List<List<Int>>.clockwiseSpiral():List<Int> =
     when (size) {
         0 -> listOf()
         1 -> first()
-        else -> firstHorizontal() +
-                firstVertical() +
-                secondHorizontal() +
-                secondVertical() +
+        else -> topLine() +
+                rightLine() +
+                bottomLine() +
+                leftLine() +
                 removeBorder().clockwiseSpiral()
     }
 
-fun List<List<Int>>.firstHorizontal() = get(0).subList(0, m)
-fun List<List<Int>>.firstVertical() = subList(1, n).map{it[m - 1]}
-fun List<List<Int>>.secondHorizontal() = get(n - 1 ).subList(0 , m  - 1).reversed()
-fun List<List<Int>>.secondVertical() = subList(1, n - 1).map{it[0]}.reversed()
+fun List<List<Int>>.topLine() = elementsFor(0..0, 0..(m - 1))
+fun List<List<Int>>.rightLine() = elementsFor(1..(n - 1), (m - 1)..(m - 1))
+fun List<List<Int>>.bottomLine() = elementsFor((n - 1)..(n - 1), 0..(m - 2)).reversed()
+fun List<List<Int>>.leftLine() = elementsFor(1..(n - 2), 0..0).reversed()
 
-fun List<List<Int>>.removeBorder() = subList(1, n - 1).map{it.subList(1, m - 1)}
+fun List<List<Int>>.removeBorder() =  subList(1, n - 1).map{it.subList(1, m - 1)}
+
+fun List<List<Int>>.elementsFor(rows:IntRange, cols:IntRange) = rows.flatMap { row -> cols.map{col -> this[row][col]} }
 
 val List<List<Int>>.n get() = size
 
