@@ -6,7 +6,7 @@ package september.september19
 //Write a function to simulate an unbiased coin toss.
 
 fun biasedRandomOneOrZero() =
-    if (((1..10).random() +  (1..5).random())/2 > 5) 1 else 0
+    if ((1..10).random()  > 7) 1 else 0
 
 fun unBiasedCoin(biasedRandom:()->Int = ::biasedRandomOneOrZero):String =
     when (Pair(biasedRandom() , biasedRandom())) {
