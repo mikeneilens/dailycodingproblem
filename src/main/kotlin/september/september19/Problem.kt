@@ -8,8 +8,8 @@ package september.september19
 fun biasedRandomOneOrZero() =
     if (((1..10).random() +  (1..5).random())/2 > 5) 1 else 0
 
-fun unBiasedCoin():String =
-    when (Pair(biasedRandomOneOrZero() , biasedRandomOneOrZero())) {
+fun unBiasedCoin(biasedRandom:()->Int = ::biasedRandomOneOrZero):String =
+    when (Pair(biasedRandom() , biasedRandom())) {
         Pair(1,0) -> "heads"
         Pair(0,1) -> "tails"
         else -> unBiasedCoin()
