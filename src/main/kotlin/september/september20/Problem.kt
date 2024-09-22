@@ -1,0 +1,40 @@
+package september.september20
+
+//Implement an LFU (Least Frequently Used) cache. It should be able to be initialized with a cache size n,
+// and contain the following methods:
+//
+//set(key, value): sets key to value. If there are already n items in the cache, and we are adding a new item,
+// then it should also remove the least frequently used item. If there is a tie, then the least recently used key should be removed.
+//get(key): gets the value at key. If no such key exists, return null.
+//Each operation should run in O(1) time.
+
+data class Item(val key:String, val value:Int, var hits:Int, var next:Item? = null) {
+    override fun toString(): String = "Item( key = $key, value = $value, hits = $hits )"
+}
+
+data class LfuCache(var first:Item) {
+    companion object {
+        fun initialize(size:Int, first:Item = Item("$size",0,0), last:Item = first):LfuCache {
+            if (size <= 1){
+                last.next = first
+                return LfuCache(first)
+            }
+            val newItem = Item("${size - 1}",0,0).apply{ last.next = this }
+            return initialize(size - 1, first, newItem )
+        }
+    }
+    fun get(key:String, item:Item? = first):Item? {
+        if (item?.key == key) return item
+        else if (item?.next == first) return null
+        return get(key, item?.next)
+    }
+    fun itemToInsertAfter(newItem:Item, item:Item? = first):Item? =
+        if (newItem.hits < (item?.hits ?: Int.MAX_VALUE)) null
+        else if (item?.next == first) item
+        else if ((item?.next?.hits ?: 0 ) > newItem.hits) item
+        else itemToInsertAfter(newItem, item?.next)
+
+    fun size(count:Int = 1, item:Item? = first.next):Int =
+        if (item == first)  count
+        else size(count + 1, item?.next)
+}
