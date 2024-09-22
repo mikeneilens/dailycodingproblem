@@ -17,7 +17,6 @@ data class Item(val key:String, val value:Int, var hits:Int, var prev:Item? = nu
         other.next?.prev = this
         other.next = this
     }
-
     override fun toString(): String = "Item( key = $key, value = $value, hits = $hits )"
 }
 
@@ -34,10 +33,32 @@ data class LfuCache(var first:Item) {
         }
     }
     fun get(key:String, item:Item? = first):Item? {
-        if (item?.key == key) return item
+        if (item?.key == key) {
+            item.hits++
+            itemToInsertAfter(item, item)?.let{
+                if (it != first){
+                    if (item == first) item.next?.let{first = it}
+                    item.insertAfter(it)}
+                }
+            return item
+        }
         else if (item?.next == first) return null
         return get(key, item?.next)
     }
+
+    fun set(key:String, value:Int, newItem:Item = Item(key, value, 1, first.prev, first.next)) {
+        newItem.prev?.next = newItem
+        newItem.next?.prev = newItem
+        first = newItem
+        itemToInsertAfter(first, first)?.let{
+            if (it != first){
+                val newFirst = first.next
+                first.insertAfter(it)
+                newFirst?.let {first = it}
+            }
+        }
+    }
+
     fun itemToInsertAfter(newItem:Item, item:Item? = first):Item? =
         if (newItem.hits < (item?.hits ?: Int.MAX_VALUE)) null
         else if (item?.next == first) item
@@ -47,4 +68,8 @@ data class LfuCache(var first:Item) {
     fun size(count:Int = 1, item:Item? = first.next):Int =
         if (item == first)  count
         else size(count + 1, item?.next)
+
+    fun output(output:String = " $first", item:Item? = first.next):String =
+        if (item == first) output
+        else output(output + "\n $item", item?.next)
 }
