@@ -21,6 +21,7 @@ data class Item(val key:String, val value:Int, var hits:Int, var prev:Item? = nu
 }
 
 data class LfuCache(var first:Item) {
+    val map = mutableMapOf<String, Item>()
     companion object {
         fun initialize(size:Int, first:Item = Item("$size",0,0), last:Item = first):LfuCache {
             if (size <= 1){
@@ -32,21 +33,20 @@ data class LfuCache(var first:Item) {
             return initialize(size - 1, first, newItem )
         }
     }
-    fun get(key:String, item:Item? = first):Item? {
-        if (item?.key == key) {
-            item.hits++
-            itemToInsertAfter(item, item)?.let{
-                if (it != first){
-                    if (item == first) item.next?.let{first = it}
-                    item.insertAfter(it)}
-                }
-            return item
+    fun get(key:String):Item? {
+        val item = map[key]
+        if (item == null) return null
+        item.hits++
+        itemToInsertAfter(item, item)?.let{
+            if (it != first){
+                if (item == first) item.next?.let{first = it}
+                item.insertAfter(it)}
         }
-        else if (item?.next == first) return null
-        return get(key, item?.next)
+        return item
     }
 
     fun set(key:String, value:Int, newItem:Item = Item(key, value, 1, first.prev, first.next)) {
+        map[key] = newItem
         newItem.prev?.next = newItem
         newItem.next?.prev = newItem
         first = newItem
