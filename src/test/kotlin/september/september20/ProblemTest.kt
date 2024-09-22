@@ -22,6 +22,16 @@ class ProblemTest: StringSpec({
     "initialising cache with 3 items creates a cache of size 3" {
         val cache = LfuCache.initialize(3)
         cache.size() shouldBe 3
+        val item1 = cache.first
+        val item2 = cache.first.next
+        val item3 = cache.first.next?.next
+        item1.next shouldBe item2
+        item1?.prev shouldBe item3
+        item2?.prev shouldBe item1
+        item2?.next shouldBe item3
+        item2?.prev shouldBe item1
+        item3?.next shouldBe item1
+        item3?.prev shouldBe item2
     }
     "item for key '2' should return an item with key '2'" {
         val item1 = Item("1", 0,0)
@@ -57,5 +67,30 @@ class ProblemTest: StringSpec({
         val item3 = Item("3", 0,4).apply { item2.next = this}
         val item4 = Item("4", 0,6).apply { item3.next = this; this.next = item1 }
         LfuCache(item1).itemToInsertAfter(Item("",0,2)) shouldBe null
+    }
+    "insert an item after item 3 in a chain of 4 items" {
+        val item1 = Item("1", 0,3)
+        val item2 = Item("2", 0,4).apply { item1.next = this; prev = item1 }
+        val item3 = Item("3", 0,4).apply { item2.next = this; prev = item2}
+        val item4 = Item("4", 0,6).apply { item3.next = this; prev = item3; this.next = item1; item1.prev = this }
+        val itemNew = Item("New", 0, 0)
+        itemNew.insertAfter(item3)
+        item3.next shouldBe  itemNew
+        itemNew.prev shouldBe item3
+        itemNew.next shouldBe item4
+        item4.prev shouldBe itemNew
+    }
+    "insert an item2 after item 3 in a chain of 4 items" {
+        val item1 = Item("1", 0,3)
+        val item2 = Item("2", 0,4).apply { item1.next = this; prev = item1 }
+        val item3 = Item("3", 0,4).apply { item2.next = this; prev = item2}
+        val item4 = Item("4", 0,6).apply { item3.next = this; prev = item3; this.next = item1; item1.prev = this }
+        item2.insertAfter(item3)
+        item3.next shouldBe  item2
+        item2.prev shouldBe item3
+        item2.next shouldBe item4
+        item4.prev shouldBe item2
+        item1.next shouldBe item3
+        item3.prev shouldBe item1
     }
 })

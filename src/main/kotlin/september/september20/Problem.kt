@@ -8,7 +8,16 @@ package september.september20
 //get(key): gets the value at key. If no such key exists, return null.
 //Each operation should run in O(1) time.
 
-data class Item(val key:String, val value:Int, var hits:Int, var next:Item? = null) {
+data class Item(val key:String, val value:Int, var hits:Int, var prev:Item? = null, var next:Item? = null) {
+    fun insertAfter(other:Item) {
+        prev?.next = next
+        next?.prev = prev
+        next = other.next
+        prev = other
+        other.next?.prev = this
+        other.next = this
+    }
+
     override fun toString(): String = "Item( key = $key, value = $value, hits = $hits )"
 }
 
@@ -17,9 +26,10 @@ data class LfuCache(var first:Item) {
         fun initialize(size:Int, first:Item = Item("$size",0,0), last:Item = first):LfuCache {
             if (size <= 1){
                 last.next = first
+                first.prev = last
                 return LfuCache(first)
             }
-            val newItem = Item("${size - 1}",0,0).apply{ last.next = this }
+            val newItem = Item("${size - 1}",0,0, prev = last).apply{ last.next = this }
             return initialize(size - 1, first, newItem )
         }
     }
