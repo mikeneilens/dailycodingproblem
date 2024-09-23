@@ -25,9 +25,9 @@ package september.september21
 data class Square(val row:Int, val col:Int)
 
 fun problem(m:Int, bishops:Set<Square>) =
-    diagnols(m).map{ diagonal -> diagonal.count { it in bishops }.noOfCollisions()}.filter{it > 0 }
+    diagonals(m).map{ diagonal -> diagonal.count { it in bishops }.noOfCollisions()}.filter{it > 0 }
 
-fun diagnols(m:Int):Set<Set<Square>> =
+fun diagonals(m:Int):Set<Set<Square>> =
    leftSideDiagonal(m) + topSideDiagonal(m) + rightSideDiagonal(m) + bottomSideDiagonal(m)
 
 fun leftSideDiagonal(m:Int) = (0..(m - 2)).map{ n -> (1..(m-n)).map{ row -> Square( row, row + n)}.toSet()}.toSet()
