@@ -167,7 +167,9 @@ class ProblemTest: StringSpec({
         item2.prev shouldBe item3
         item3.next shouldBe item2
         cache.first shouldNotBe item1
+        cache.map["1"] shouldBe null
         println(cache.output())
+        println(cache.map)
     }
 
 })

@@ -46,6 +46,7 @@ data class LfuCache(var first:Item) {
     }
 
     fun set(key:String, value:Int, newItem:Item = Item(key, value, 1, first.prev, first.next)) {
+        map.remove(first.key)
         map[key] = newItem
         newItem.prev?.next = newItem
         newItem.next?.prev = newItem
