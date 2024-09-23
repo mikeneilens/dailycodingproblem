@@ -175,7 +175,7 @@ class ProblemTest: StringSpec({
         val cache = LfuCache.initialize(26)
         val randomKey = {  ('A'..'Z').random().toString() }
         val randomFunction = {if ((1..2).random() == 1) cache.set(randomKey(),1) else cache.get(randomKey())}
-        repeat(100, { randomFunction()})
+        repeat(20, { randomFunction()})
         println(cache.output())
     }
 

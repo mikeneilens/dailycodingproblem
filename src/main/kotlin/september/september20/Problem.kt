@@ -52,7 +52,6 @@ data class LfuCache(var first:Item) {
         newItem.prev?.next = newItem
         newItem.next?.prev = newItem
         first = newItem
-        println();println(first);println(output())
         itemToInsertAfter(first, first)?.let{
             if (it != first){
                 val newFirst = first.next
