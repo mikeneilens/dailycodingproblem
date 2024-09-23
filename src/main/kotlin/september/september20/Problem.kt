@@ -46,11 +46,13 @@ data class LfuCache(var first:Item) {
     }
 
     fun set(key:String, value:Int, newItem:Item = Item(key, value, 1, first.prev, first.next)) {
+        if (key in map) return
         map.remove(first.key)
         map[key] = newItem
         newItem.prev?.next = newItem
         newItem.next?.prev = newItem
         first = newItem
+        println();println(first);println(output())
         itemToInsertAfter(first, first)?.let{
             if (it != first){
                 val newFirst = first.next

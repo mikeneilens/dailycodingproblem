@@ -171,5 +171,12 @@ class ProblemTest: StringSpec({
         println(cache.output())
         println(cache.map)
     }
+    "do some random sets and gets on a 26 character cache" {
+        val cache = LfuCache.initialize(26)
+        val randomKey = {  ('A'..'Z').random().toString() }
+        val randomFunction = {if ((1..2).random() == 1) cache.set(randomKey(),1) else cache.get(randomKey())}
+        repeat(100, { randomFunction()})
+        println(cache.output())
+    }
 
 })
