@@ -24,11 +24,7 @@ data class LfuCache(var first:Item) {
     val map = mutableMapOf<String, Item>()
     companion object {
         fun initialize(size:Int, first:Item = Item("$size",0,0), last:Item = first):LfuCache {
-            if (size <= 1){
-                last.next = first
-                first.prev = last
-                return LfuCache(first)
-            }
+            if (size <= 1) return LfuCache(first)
             val newItem = Item("${size - 1}",0,0, prev = last).apply{ last.next = this }
             return initialize(size - 1, first, newItem )
         }
@@ -63,15 +59,15 @@ data class LfuCache(var first:Item) {
 
     fun itemToInsertAfter(newItem:Item, item:Item? = first):Item? =
         if (newItem.hits < (item?.hits ?: Int.MAX_VALUE)) null
-        else if (item?.next == first) item
-        else if ((item?.next?.hits ?: 0 ) > newItem.hits) item
-        else itemToInsertAfter(newItem, item?.next)
+        else if (item?.next == null) item
+        else if ((item.next?.hits ?: 0 ) > newItem.hits) item
+        else itemToInsertAfter(newItem, item.next)
 
-    fun size(count:Int = 1, item:Item? = first.next):Int =
-        if (item == first)  count
-        else size(count + 1, item?.next)
+    fun size(count:Int = 1, item:Item? = first):Int =
+        if (item?.next == null)  count
+        else size(count + 1, item.next)
 
     fun output(output:String = " $first", item:Item? = first.next):String =
-        if (item == first) output
+        if (item == null) output
         else output(output + "\n $item", item?.next)
 }
