@@ -22,6 +22,16 @@ class ProblemTest: StringSpec({
         diagonals(5).size shouldBe 14
     }
 
+    "if two bishops there is 1 collision" {
+        2.noOfCollisions() shouldBe 1
+    }
+    "if three bishops there is 3 collision" {
+        3.noOfCollisions() shouldBe 3
+    }
+    "if four bishops there is 6 collision" {
+        4.noOfCollisions() shouldBe 6
+    }
+
     "for bishops (1,1), (2,3), (3,3), (5,1) on a 5 X 5 board there are two diagonals with one collision each" {
         val bishops = setOf(
             Square(1,1),
