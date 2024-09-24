@@ -5,14 +5,14 @@ import io.kotest.matchers.shouldBe
 
 class ProblemTest: StringSpec( {
     "if random number is 1 rand5 should return 1" {
-        rand5({1}) shouldBe 1
+        rand5{1} shouldBe 1
     }
     "if random number is 5 rand5 should return 5" {
-        rand5({5}) shouldBe 5
+        rand5{5} shouldBe 5
     }
     "if random number is 6 rand5 should return next number in the list less than 6"{
         var n = -1
-        var rand7 = { n++; listOf(6,2)[n % 2] }
+        val rand7 = { n++; listOf(6,2)[n % 2] }
         rand5(rand7) shouldBe 2
     }
     "test 1000000 requests" {
