@@ -16,4 +16,10 @@ class ProblemTest: StringSpec( {
     "when all numbers are negative pick the highest three numbers"{
         problem(listOf(-5,-4,-3,-2,-1).shuffled()) shouldBe listOf(-3,-2,-1)
     }
+    "when highest number is zero any two others plus zero is a valid result"{
+        val result = problem(listOf(-5,-4,-3,-2,-1,0).shuffled())
+        result.last() shouldBe 0
+        (result[0] in listOf(-5,-4,-3,-2,-1,0)) shouldBe true
+        (result[1] in listOf(-5,-4,-3,-2,-1,0)) shouldBe true
+    }
 })
