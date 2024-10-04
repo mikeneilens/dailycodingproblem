@@ -10,10 +10,10 @@ data class Output(val prevMinus1:Int = Int.MIN_VALUE, val prev:Int = Int.MIN_VAL
 
 fun problem(numbers:List<Int>):Boolean = numbers.fold(Output(), ::checkSequence).result.size <= 1
 
-private fun checkSequence(output: Output, number: Int) = when {
+fun checkSequence(output: Output, number: Int) = when {
     (number < output.prev && output.prev == output.prevMinus1) ->
-        Output(prevMinus1 = output.prev, prev = number, output.result + listOf(number, number))
+        Output(prevMinus1 = output.prev, prev = number, output.result + listOf(output.prev, output.prev))
     (number < output.prev) ->
-        Output(prevMinus1 = output.prev, prev = number, output.result + number)
+        Output(prevMinus1 = output.prev, prev = number, output.result + output.prev)
     else -> Output(prevMinus1 = output.prev, prev = number, output.result)
 }
