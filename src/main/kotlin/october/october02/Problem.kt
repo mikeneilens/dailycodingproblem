@@ -8,8 +8,7 @@ package october.october02
 
 data class Output(val prevMinus1:Int = Int.MIN_VALUE, val prev:Int = Int.MIN_VALUE, val result:List<Int> = listOf())
 
-fun problem(numbers:List<Int>):Boolean = numbers.foldIndexed(Output()){
-    index, output, number ->
+fun problem(numbers:List<Int>):Boolean = numbers.foldIndexed(Output()){ index, output, number ->
     if (index < numbers.lastIndex ) checkSequence(output, number, numbers[index + 1])
     else checkSequence(output, number)
 }.result.size <= 1
