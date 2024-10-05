@@ -23,6 +23,7 @@ class ProblemTest: StringSpec( {
         problem(listOf(1,4,3,2)) shouldBe false
     }
     "[10,5,7] returns true" {
+        println( listOf(10,5,7).fold(Output(), ::checkSequence))
         problem(listOf(10,5,7)) shouldBe true
     }
     "[10,5,1] returns false" {
@@ -30,5 +31,8 @@ class ProblemTest: StringSpec( {
     }
     "[1,10,10,5,7] returns false" {
         problem(listOf(1,10,10,5,7)) shouldBe false
+    }
+    "[1,10,10,8,10] returns true" {
+        problem(listOf(1,10,10,8,10)) shouldBe true
     }
 })

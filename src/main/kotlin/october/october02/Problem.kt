@@ -8,12 +8,18 @@ package october.october02
 
 data class Output(val prevMinus1:Int = Int.MIN_VALUE, val prev:Int = Int.MIN_VALUE, val result:List<Int> = listOf())
 
-fun problem(numbers:List<Int>):Boolean = numbers.fold(Output(), ::checkSequence).result.size <= 1
+fun problem(numbers:List<Int>):Boolean = numbers.foldIndexed(Output()){
+    index, output, number ->
+    if (index < numbers.lastIndex ) checkSequence(output, number, numbers[index + 1])
+    else checkSequence(output, number)
+}.result.size <= 1
 
-fun checkSequence(output: Output, number: Int) = when {
-    (number < output.prev && output.prev == output.prevMinus1) ->
-        Output(prevMinus1 = output.prev, prev = number, output.result + listOf(output.prev, output.prev))
-    (number < output.prev) ->
-        Output(prevMinus1 = output.prev, prev = number, output.result + output.prev)
-    else -> Output(prevMinus1 = output.prev, prev = number, output.result)
+fun checkSequence(output: Output, number: Int, nextNumber:Int = Int.MAX_VALUE):Output{
+    val newResult = when {
+        (output.prev in (number + 1)..nextNumber) -> output.result + number
+        (number < output.prev && output.prev == output.prevMinus1) -> output.result + listOf(output.prev, output.prev)
+        (number < output.prev) -> output.result + output.prev
+        else ->  output.result
+    }
+    return Output(prevMinus1 = output.prev, prev = number, result = newResult)
 }
