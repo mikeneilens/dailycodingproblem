@@ -5,19 +5,34 @@ package october.october15
 //
 //Return null if there is no such ordering.
 //
-//For example, given {'CSC300': ['CSC100', 'CSC200'], 'CSC200': ['CSC100'], 'CSC100': []}, should return ['CSC100', 'CSC200', 'CSCS300'].
+//For example, given {'CSC300': ['CSC100', 'CSC200'], 'CSC200': ['CSC100'], 'CSC100': []}, should return ['CSC100', 'CSC200', 'CSC300'].
 
-fun Map<String, List<String>>.inverted():Map<String, List<String>> {
-    return toList()
-        .flatMap(::invertPair)
-        .sortedBy { it.first }.fold<Pair<String, String>, List<Pair<String, List<String>>>>(listOf()) { result, p ->
-        if (result.isEmpty()) listOf(Pair(p.first,listOf(p.second)))
-        else if (result.last().first != p.first) result + Pair(p.first,listOf(p.second))
-        else result.dropLast(1) + Pair(p.first, result.last().second + p.second)
-    }.toMap()
-}
+fun problem(map:Map<String, List<String>>):List<String> =
+    map.inverted("")
+        .getPossibleCourses()
+        .maxByOrNull(List<String>::size)?.drop(1).orEmpty()
 
-private fun invertPair(p:Pair<String, List<String>>) =
+//use a depth first search
+fun Map<String,List<String>>.getPossibleCourses(attended:List<String> = listOf("")):List<List<String>> =
+    get(attended.last())?.filter{it !in attended}.let{ options ->
+        if (options.isNullOrEmpty()) listOf(attended)
+        else options.flatMap{getPossibleCourses(attended + it)}
+    }
+
+//this swaps the keys and the values of a map when the values type is a list of the same type as the key
+fun <E>Map<E, List<E>>.inverted(root:E):Map<E, List<E>> where E: Comparable<E> =
+    toList()
+        .flatMap{invertAndFlattenPair(it, root)}
+        .sortedBy { it.first }.fold(listOf(), ::aggregateValues)
+        .toMap()
+
+fun <E>invertAndFlattenPair(p:Pair<E, List<E>>, root:E) =
     if (p.second.isNotEmpty()) p.second.map { v -> Pair(v, p.first) }
-    else listOf(Pair("", p.first))
+    else listOf(Pair(root, p.first))
+
+fun <E>aggregateValues(result: List<Pair<E, List<E>>>, p: Pair<E, E>) = when {
+        result.isEmpty() -> listOf(Pair(p.first, listOf(p.second)))
+        result.last().first != p.first -> result + Pair(p.first, listOf(p.second))
+        else -> result.dropLast(1) + Pair(p.first, result.last().second + p.second)
+    }
 
