@@ -19,7 +19,7 @@ class ProblemTest: StringSpec({
 
     "map['':[A,B],A:[B,C],C:[D],B:[C] gives possible courses of " {
         val courseMap = mapOf("" to listOf("A","B"), "A" to listOf("B","C"), "C" to listOf("D"), "B" to listOf("C"))
-        courseMap.getPossibleCourses(listOf("")) shouldBe listOf(listOf("","A","B","C","D"), listOf("","A","C","D"), listOf("","B","C","D"))
+        courseMap.getPossibleCourses() shouldBe listOf(listOf("","A","B","C","D"), listOf("","A","C","D"), listOf("","B","C","D"))
     }
     "given {'CSC300': ['CSC100', 'CSC200'], 'CSC200': ['CSC100'], 'CSC100': []}, should return ['CSC100', 'CSC200', 'CSC300']" {
         val map = mapOf("CSC300" to listOf("CSC100", "CSC200"), "CSC200" to listOf("CSC100"), "CSC100" to listOf())
