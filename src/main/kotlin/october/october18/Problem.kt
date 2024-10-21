@@ -1,5 +1,8 @@
 package october.october18
 
+import october.october19.swap
+import september.september07.numbers
+
 //Given a number represented by a list of digits, find the next greater permutation of a number,
 // in terms of lexicographic ordering.
 // If there is not greater permutation possible, return the permutation with the lowest value/ordering.
@@ -8,9 +11,31 @@ package october.october18
 // The list [3,2,1] should return [1,2,3].
 
 
+fun problem(numbers:List<Int>) =
+    numbers.positionOfLastAscending()?.let{ positionOfLastAscending ->
+        val positionToSwap = numbers.positionOfLastDigitGreaterThan(positionOfLastAscending)
+        numbers.swap(positionOfLastAscending, positionToSwap).reverseDigitsAfter(positionOfLastAscending)
+    } ?: numbers.sorted()
 
-//With an array of numbers, determine position of last ascending digit and call it p
+fun List<Int>.positionOfLastAscending(default:Int? = null) =
+    foldIndexed(default){index, result, number ->
+        if (index < lastIndex && number < get(index + 1)) index
+        else result
+    }
 
-//With an array of numbers, determine position of last digit greater than [p]
+fun List<Int>.positionOfLastDigitGreaterThan(position:Int) =
+    foldIndexed(-1){index, result, number ->
+        if (number > get(position)) index
+        else result
+    }
 
-//With an array of numbers, if there is more than 1 digit after position p, reverse the digits after position p
+fun List<Int>.swap(a:Int, b:Int) = toMutableList().swapInt(a, b).toList()
+
+fun MutableList<Int>.swapInt(a:Int, b:Int):List<Int> {
+    this[a]= this[b].also { this[b] = this[a] }
+    return this
+}
+
+fun List<Int>.reverseDigitsAfter(position:Int) =
+    if (position >= lastIndex) this
+    else (dropLast(lastIndex - position)) + subList(position + 1, size).reversed()
