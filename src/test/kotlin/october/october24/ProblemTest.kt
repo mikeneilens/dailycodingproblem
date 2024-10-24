@@ -21,7 +21,7 @@ class ProblemTest: StringSpec({
         isPrime(35) shouldBe false
     }
     "prime sequence creator" {
-        val nextPrime = createPrimeSequence()
+        val nextPrime = NextPrime()
         nextPrime() shouldBe 2
         nextPrime() shouldBe 3
         nextPrime() shouldBe 5

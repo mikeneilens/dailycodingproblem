@@ -17,15 +17,17 @@ import kotlin.math.sqrt
 //[a, b] < [c, d]
 //If a < c OR a==c AND b < d.
 
-fun problem(evenNumber:Int, nextPrime:()->Int = createPrimeSequence() ):Pair<Int, Int> {
+fun problem(evenNumber:Int, nextPrime:NextPrime = NextPrime() ):Pair<Int, Int> {
     val prime = nextPrime()
     return if (isPrime(evenNumber - prime)) Pair(prime, evenNumber - prime)
     else problem(evenNumber, nextPrime)
 }
 
-fun createPrimeSequence(start:Int = 1):()->Int {
-    var n = start
-    return { while(!isPrime(++n)) { continue }; n }
+class NextPrime(var n:Int = 1):()->Int  {
+    override fun  invoke():Int {
+        while(!isPrime(++n)) { continue }
+        return n
+    }
 }
 
 fun isPrime(n: Int): Boolean = when {
