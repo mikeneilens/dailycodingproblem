@@ -19,9 +19,9 @@ fun List<Int>.createListOfSubLists() =
 
 //In theory one list may contain more than one sublist that starts at 0 that adds up to the total
 fun List<Int>.leadingSubListWithTotalEqualTo(total:Int):List<List<Int>> {
-    val last = foldIndexed(Pair(0, listOf<List<Int>>())){index, result, n ->
+    val subLists = foldIndexed(Pair(0, listOf<List<Int>>())){ index, result, n ->
         if (result.first + n == total) Pair(result.first + n, result.second + listOf(subList(0, index + 1)) )
         else Pair(result.first + n, result.second)
     }
-    return last.second
+    return subLists.second
 }
