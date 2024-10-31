@@ -4,7 +4,10 @@ package october.october31
 //
 //For example, if A is abcde and B is cdeab, return true. If A is abc and B is acb, return false.
 
-fun problem(a:String, b:String, rotationsLeft:Int = a.length - 1):Boolean =
-    if (a == b) true
-    else if (a.length != b.length || rotationsLeft == 0) false
-    else problem(a, b.drop(1) + b.first() , rotationsLeft - 1)
+fun problem(a:String, b:String, rotationsLeft:Int = a.length - 1):Boolean = when {
+        a == b -> true
+        a.length != b.length || rotationsLeft == 0 -> false
+        else -> problem(a, b.rotateLeft() , rotationsLeft - 1)
+    }
+
+fun String.rotateLeft() = drop(1) + first()
