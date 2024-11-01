@@ -15,4 +15,4 @@ fun problem(number:Int) =
 
 fun String.prefixWithZeroIfOddLength() = if (length % 2 == 0) this else "0$this"
 
-fun String.swapDigits() = if (length > 1) "${this[1]}${this[0]}" else ""
+fun String.swapDigits() = if (length > 1) "${this[1]}${this[0]}" else this
