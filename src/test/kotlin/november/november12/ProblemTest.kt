@@ -13,5 +13,4 @@ class ProblemTest: StringSpec({
     "smallest set of numbers covering ranges [0,3], [2,6], [3,4], [6,9] is {3,6}" {
         listOf(0..3, 2..6, 3..4, 6..9).minimumSetOfNumbers() shouldBe setOf(3,6)
     }
-
 })
